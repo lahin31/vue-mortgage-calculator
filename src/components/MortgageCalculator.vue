@@ -1,37 +1,39 @@
 <template>
-    <div>
+    <div class="mortagage_calculator">
         <h1>Mortgage Calculator</h1>
-        <el-row>
-            <p>Home Price</p>
-            <el-col :span="8">
+        <el-row :gutter="15">
+            <el-col :span="24">
+                <label>Home Price</label>
                 <el-input placeholder="Home Price" v-model="homePrice" min=0></el-input>
             </el-col>
         </el-row>
-         <el-row :gutter="15" style="margin-top: 10px">
-             <p>Down Pament</p>
-            <el-col :span="4">
+         <el-row :gutter="15">
+            <el-col :span="12">
+                <label>Down Pament</label>
                 <el-input placeholder="Down Payment" v-model="downPament" min="0"></el-input>
             </el-col>
-            <el-col :span="4">
-                <el-input v-model="downPamentPerc"></el-input>
+            <el-col :span="12">
+                <label>Down Pament Percentage</label>
+                <el-input placeholder="Down Pament Percentage" v-model="downPamentPerc"></el-input>
             </el-col>
         </el-row>
-        <el-row :gutter="15" style="margin-top: 10px">
-            <p>Mortgage term</p>
-            <el-col :span="4">
+        <el-row :gutter="15">
+            <el-col :span="12">
+                <label>Mortgage term</label>
                 <el-input placeholder="Mortgage Term" v-model="mortgageTerm"></el-input>
             </el-col>
-            <el-col :span="4">
+            <el-col :span="12">
+                <label>Mortgage term month</label>
                 <el-input placeholder="Mortgage Term Month" v-model="mortgageTermMonth"></el-input>
             </el-col>
         </el-row>
-        <el-row style="margin-top: 10px">
-            <p>Annual interest rate</p>
-            <el-col :span="4">
+        <el-row :gutter="15">
+            <el-col :span="12">
+                <label>Annual interest rate</label>
                 <el-input placeholder="Annual interest rate" v-model="annualInterestRate" min="0"></el-input>
             </el-col>
         </el-row>
-        <div style="margin-top: 10px;">
+        <div style="margin-top: 10px; margin-left: 0;">
             <p>Your estimated monthly payment:</p>
             <h1><span>$</span> {{ (monthlyPayment).toFixed(3) }}</h1>
             <p>Total principal paid: {{ principalPaid }}</p>
@@ -198,3 +200,16 @@ export default {
 }
 </script>
 
+<style>
+
+.mortagage_calculator {
+    width: 50%;
+    background-color: #F0F0F2;
+    margin: 0 auto;
+    padding: 10px;
+}
+
+.mortagage_calculator h1:nth-child(1) {
+    text-align: center;
+}
+</style>

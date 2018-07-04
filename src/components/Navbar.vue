@@ -17,6 +17,6 @@ p {
 
 .mortgage-navbar {
     display: flex;
-    padding: 20px 0;
+    padding: 0 425px;
 }
 </style>
