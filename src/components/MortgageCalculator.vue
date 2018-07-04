@@ -1,32 +1,33 @@
 <template>
     <div>
+        <h1>Mortgage Calculator</h1>
         <el-row>
             <p>Home Price</p>
-            <el-col :span="12">
+            <el-col :span="8">
                 <el-input placeholder="Home Price" v-model="homePrice" min=0></el-input>
             </el-col>
         </el-row>
          <el-row :gutter="15" style="margin-top: 10px">
              <p>Down Pament</p>
-            <el-col :span="6">
+            <el-col :span="4">
                 <el-input placeholder="Down Payment" v-model="downPament" min="0"></el-input>
             </el-col>
-            <el-col :span="6">
+            <el-col :span="4">
                 <el-input v-model="downPamentPerc"></el-input>
             </el-col>
         </el-row>
         <el-row :gutter="15" style="margin-top: 10px">
             <p>Mortgage term</p>
-            <el-col :span="6">
+            <el-col :span="4">
                 <el-input placeholder="Mortgage Term" v-model="mortgageTerm"></el-input>
             </el-col>
-            <el-col :span="6">
+            <el-col :span="4">
                 <el-input placeholder="Mortgage Term Month" v-model="mortgageTermMonth"></el-input>
             </el-col>
         </el-row>
         <el-row style="margin-top: 10px">
             <p>Annual interest rate</p>
-            <el-col :span="6">
+            <el-col :span="4">
                 <el-input placeholder="Annual interest rate" v-model="annualInterestRate" min="0"></el-input>
             </el-col>
         </el-row>
@@ -71,15 +72,15 @@ export default {
 
             }
 
-            if( this.myValue != 0 && this.mortgageTermMonth != 0 && this.principalPaid ) {
-                
-                this.monthlyPayment = parseFloat( ( ( this.principalPaid * this.myValue ) / ( 1 - ( 1 / Math.pow( ( 1 + this.myValue ), this.mortgageTermMonth ) ) ) ) );
-            
-            }
-
             if( this.principalPaid != 0 ) {
                 
                 this.principalPaid = parseFloat( this.homePrice - this.downPament );
+            
+            }
+
+            if( this.myValue != 0 && this.mortgageTermMonth != 0 && this.principalPaid ) {
+                
+                this.monthlyPayment = parseFloat( ( ( this.principalPaid * this.myValue ) / ( 1 - ( 1 / Math.pow( ( 1 + this.myValue ), this.mortgageTermMonth ) ) ) ) );
             
             }
 
