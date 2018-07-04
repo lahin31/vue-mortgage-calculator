@@ -33,6 +33,10 @@
         </el-row>
         <p>New Monthly Pament</p>
         <h1><span>$</span>{{ monthly_payment }}</h1>
+        <p>Monthly Savings: {{ monthly_savings }}</p>
+        <p>Difference in Interest: {{ diff_in_interest }}</p>
+        <p>Total cost: {{ total_cost }}</p>
+        <p>Months to recoup costs: {{ months_rec_costs }}</p>
     </div>
 </template>
 
@@ -48,26 +52,39 @@ export default {
             new_loan_term: 0,
             monthly_payment: 0,
             new_interest_rate_upd: 0,
-            new_loan_term_upd: 0
+            new_loan_term_upd: 0,
+            monthly_savings: 0,
+            diff_in_interest: 0,
+            total_cost: 0, 
+            months_rec_costs: 0
         }
     },
     watch: {
 
-        balance() {
+        current_monthly_payment() {
 
-            console.log(this.balance);
-
-            if( this.balance != 0 && this.new_interest_rate_upd != 0 && this.new_loan_term != 0 ) {
+            if( this.balance != 0 && this.new_interest_rate_upd != 0 && this.new_loan_term != 0 && this.current_monthly_payment != 0 ) {
 
                 this.monthly_payment = parseFloat( ( ( this.balance * this.new_interest_rate_upd ) / ( 1 - ( 1 / Math.pow( ( 1 + this.new_interest_rate_upd ), this.new_loan_term_upd ) ) ) ) );
-
+                this.monthly_savings = parseFloat( this.current_monthly_payment - this.monthly_payment );
+            
             }
 
+        },
+
+        balance() {
 
             if( this.new_loan_term == 0 && this.new_interest_rate_upd == 0 ) {
                 
                 this.monthly_payment = 0;
 
+            }
+
+            if( this.balance != 0 && this.new_interest_rate_upd != 0 && this.new_loan_term != 0 && this.current_monthly_payment != 0 ) {
+
+                this.monthly_payment = parseFloat( ( ( this.balance * this.new_interest_rate_upd ) / ( 1 - ( 1 / Math.pow( ( 1 + this.new_interest_rate_upd ), this.new_loan_term_upd ) ) ) ) );
+                this.monthly_savings = parseFloat( this.current_monthly_payment - this.monthly_payment );
+            
             }
 
         },
@@ -76,9 +93,10 @@ export default {
                 
             this.new_interest_rate_upd = parseFloat(( this.new_interest_rate / 12 )/100);
             
-            if( this.balance != 0 && this.new_interest_rate_upd != 0 && this.new_loan_term != 0 ) {
+            if( this.balance != 0 && this.new_interest_rate_upd != 0 && this.new_loan_term != 0 && this.current_monthly_payment != 0 ) {
 
                 this.monthly_payment = parseFloat( ( ( this.balance * this.new_interest_rate_upd ) / ( 1 - ( 1 / Math.pow( ( 1 + this.new_interest_rate_upd ), this.new_loan_term_upd ) ) ) ) );
+                this.monthly_savings = parseFloat( this.current_monthly_payment - this.monthly_payment );
 
             }
 
@@ -87,9 +105,11 @@ export default {
         new_loan_term() {
 
             this.new_loan_term_upd = parseFloat( this.new_loan_term ) * 12;
-            if( this.balance != 0 && this.new_interest_rate_upd != 0 && this.new_loan_term != 0 ) {
+
+            if( this.balance != 0 && this.new_interest_rate_upd != 0 && this.new_loan_term != 0 && this.current_monthly_payment != 0 ) {
 
                 this.monthly_payment = parseFloat( ( ( this.balance * this.new_interest_rate_upd ) / ( 1 - ( 1 / Math.pow( ( 1 + this.new_interest_rate_upd ), this.new_loan_term_upd ) ) ) ) );
+                this.monthly_savings = parseFloat( this.current_monthly_payment - this.monthly_payment );
 
             }
 
