@@ -31,6 +31,16 @@
                 <el-input placeholder="New interest rate" v-model="new_loan_term"></el-input>
             </el-col>
         </el-row>
+        <div> 
+            <p><strong>How much will it cost you?</strong></p>
+            <p>Costs of points: {{ pointsResult }}</p>
+        </div>
+        <el-row>
+            <el-col :span="4">
+                <label>Points</label>
+                <el-input placeholder="Points" v-model="points"></el-input>
+            </el-col>
+        </el-row>
         <p>New Monthly Pament</p>
         <h1><span>$</span>{{ monthly_payment }}</h1>
         <p>Monthly Savings: {{ monthly_savings }}</p>
@@ -56,7 +66,9 @@ export default {
             monthly_savings: 0,
             diff_in_interest: 0,
             total_cost: 0, 
-            months_rec_costs: 0
+            months_rec_costs: 0,
+            points: 0,
+            pointsResult: 0
         }
     },
     watch: {
@@ -74,6 +86,14 @@ export default {
 
         balance() {
 
+            if( this.balance == 0 ) {
+
+                this.monthly_payment = 0;
+                this.pointsResult = 0;
+                this.total_cost = 0;
+
+            }
+
             if( this.new_loan_term == 0 && this.new_interest_rate_upd == 0 ) {
                 
                 this.monthly_payment = 0;
@@ -85,6 +105,14 @@ export default {
                 this.monthly_payment = parseFloat( ( ( this.balance * this.new_interest_rate_upd ) / ( 1 - ( 1 / Math.pow( ( 1 + this.new_interest_rate_upd ), this.new_loan_term_upd ) ) ) ) );
                 this.monthly_savings = parseFloat( this.current_monthly_payment - this.monthly_payment );
             
+            }
+
+            if( this.points != 0 ) {
+
+                let balancePoints = parseFloat(( this.balance ) / 100);
+                this.pointsResult = (balancePoints * this.points);
+                this.total_cost = this.pointsResult;
+
             }
 
         },
@@ -110,6 +138,25 @@ export default {
 
                 this.monthly_payment = parseFloat( ( ( this.balance * this.new_interest_rate_upd ) / ( 1 - ( 1 / Math.pow( ( 1 + this.new_interest_rate_upd ), this.new_loan_term_upd ) ) ) ) );
                 this.monthly_savings = parseFloat( this.current_monthly_payment - this.monthly_payment );
+
+            }
+
+        },
+
+        points() {
+
+            if( this.points != 0 ) {
+
+                let balancePoints = parseFloat(( this.balance ) / 100);
+                this.pointsResult = (balancePoints * this.points);
+                this.total_cost = this.pointsResult;
+
+            }
+
+            if( this.points == 0 ) {
+
+                this.pointsResult = 0;
+                this.total_cost = 0;
 
             }
 
