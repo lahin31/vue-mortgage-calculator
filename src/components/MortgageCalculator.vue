@@ -1,43 +1,83 @@
 <template>
     <div class="mortagage_calculator">
         <h1>Mortgage Calculator</h1>
+
+        <!-- Field Section -->
+
         <el-row :gutter="15">
             <el-col :span="24">
                 <label>Home Price</label>
-                <el-input placeholder="Home Price" v-model="homePrice" min=0></el-input>
+                <el-input type="number" placeholder="Home Price" v-model="homePrice" 
+                                min=0 
+                                name="homePrice" 
+                                id="homePrice" 
+                                v-validate="'required'"></el-input>
+                <span v-if="errors.has('homePrice')" style="color: red;">
+                    Home Price field is required
+                </span>
             </el-col>
         </el-row>
          <el-row :gutter="15">
             <el-col :span="12">
                 <label>Down Pament</label>
-                <el-input placeholder="Down Payment" v-model="downPament" min="0"></el-input>
+                <el-input type="number" placeholder="Down Payment" 
+                                v-model="downPament" 
+                                name="downPayment"
+                                id="downPayment"
+                                v-validate="'required'"></el-input>
+                <span v-if="errors.has('downPayment')" style="color: red;">
+                    Down Payment field is required
+                </span>
             </el-col>
             <el-col :span="12">
                 <label>Down Pament Percentage</label>
-                <el-input placeholder="Down Pament Percentage" v-model="downPamentPerc"></el-input>
+                <el-input type="number" placeholder="Down Pament Percentage" 
+                                v-model="downPamentPerc"></el-input>
             </el-col>
         </el-row>
         <el-row :gutter="15">
             <el-col :span="12">
                 <label>Mortgage term</label>
-                <el-input placeholder="Mortgage Term" v-model="mortgageTerm"></el-input>
+                <el-input type="number" placeholder="Mortgage Term" 
+                                v-model="mortgageTerm"
+                                name="mortgageTerm"
+                                id="mortgageTerm"
+                                v-validate="'required'"></el-input>
+                <span v-if="errors.has('mortgageTerm')" style="color: red;">
+                    Mortgage Term field is required
+                </span>
             </el-col>
             <el-col :span="12">
                 <label>Mortgage term month</label>
-                <el-input placeholder="Mortgage Term Month" v-model="mortgageTermMonth"></el-input>
+                <el-input type="number" placeholder="Mortgage Term Month" v-model="mortgageTermMonth"></el-input>
             </el-col>
         </el-row>
         <el-row :gutter="15">
             <el-col :span="12">
                 <label>Annual interest rate</label>
-                <el-input placeholder="Annual interest rate" v-model="annualInterestRate" min="0"></el-input>
+                <el-input type="number" placeholder="Annual interest rate" 
+                                v-model="annualInterestRate" 
+                                name="annualInterestRate"
+                                id="annualInterestRate"
+                                v-validate="'required'"></el-input>
+                <span v-if="errors.has('annualInterestRate')" style="color: red;">
+                    Annual Interest Rate field is required
+                </span>
             </el-col>
         </el-row>
+
+        <!-- End Field Section -->
+
+        <!-- All Cost Section -->
+
         <div style="margin-top: 10px; margin-left: 0;">
             <p>Your estimated monthly payment:</p>
             <h1><span>$</span> {{ (monthlyPayment).toFixed(3) }}</h1>
             <p>Total principal paid: {{ principalPaid }}</p>
         </div>
+
+        <!-- End Cost Section -->
+
     </div>
 </template>
 
@@ -131,11 +171,11 @@ export default {
             
             }
 
-            if( this.mortgageTerm == '' ) {
+            // if( this.mortgageTerm == '' ) {
 
-                this.mortgageTerm = 0;
+            //     this.mortgageTerm = 0;
 
-            }
+            // }
 
         },
 
@@ -207,6 +247,7 @@ export default {
     background-color: #F0F0F2;
     margin: 0 auto;
     padding: 10px;
+    border: 1px solid #CFCFD4;
 }
 
 .mortagage_calculator h1:nth-child(1) {

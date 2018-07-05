@@ -4,31 +4,32 @@
         <el-row :gutter="12">
             <el-col :span="12">
                 <label>Current monthly payment</label>
-                <el-input placeholder="Current monthly payment" v-model="current_monthly_payment"></el-input>
+                <el-input type="number" placeholder="Current monthly payment" v-model="current_monthly_payment"></el-input>
             </el-col>
             <el-col :span="12">
                 <label>Current loan interest rate</label>
-                <el-input placeholder="Current loan interest rate"  v-model="current_loan_interest_rate"></el-input>
+                <el-input type="number" placeholder="Current loan interest rate"  v-model="current_loan_interest_rate"></el-input>
             </el-col>
         </el-row>
         <el-row :gutter="12">
             <el-col :span="12">
                 <label>Balance left on mortgage</label>
-                <el-input placeholder="Balance left on mortgage" v-model="balance"></el-input>
+                <el-input type="number" placeholder="Balance left on mortgage" v-model="balance"></el-input>
             </el-col>
             <el-col :span="12">
                 <label>New interest rate</label>
-                <el-input placeholder="New interest rate" v-model="new_interest_rate"></el-input>
+                <el-input type="number" placeholder="New interest rate" v-model="new_interest_rate"></el-input>
             </el-col>
         </el-row>
          <el-row :gutter="12">
             <el-col :span="12">
                 <label>Remaining loan term</label>
-                <el-input placeholder="Remaining loan term" v-model="remaining_loan_term"></el-input>
+                <el-input type="number" placeholder="Remaining loan term" v-model="remaining_loan_term"></el-input>
+                <!-- <el-input id="roamingLoanItemText" value="years" disabled></el-input> -->
             </el-col>
             <el-col :span="12">
                 <label>New loan term</label>
-                <el-input placeholder="New interest rate" v-model="new_loan_term"></el-input>
+                <el-input type="number" placeholder="New interest rate" v-model="new_loan_term"></el-input>
             </el-col>
         </el-row>
 
@@ -41,7 +42,7 @@
         <el-row :gutter="12">
             <el-col :span="12">
                 <label>Points</label>
-                <el-input placeholder="Points" v-model="points"></el-input>
+                <el-input type="number" placeholder="Points" v-model="points"></el-input>
             </el-col>
             <el-col :span="12">
                 <p>Costs of points: {{ pointsResult }}</p>
@@ -51,7 +52,7 @@
         <el-row :gutter="12">
             <el-col :span="12">
                 <label>Application fee</label>
-                <el-input placeholder="Application fee" v-model="application_fee"></el-input>
+                <el-input type="number" placeholder="Application fee" v-model="application_fee"></el-input>
             </el-col>
              <el-col :span="12">
                 <label>Credit check</label>
@@ -62,65 +63,65 @@
         <el-row :gutter="12">
             <el-col :span="12">
                 <label>Attorney's fee (yours)</label>
-                <el-input placeholder="Attorney's fee (yours)" v-model="attorney_fee_yours"></el-input>
+                <el-input type="number" placeholder="Attorney's fee (yours)" v-model="attorney_fee_yours"></el-input>
             </el-col>
             <el-col :span="12">
                 <label>Attorney's fee (lenders)</label>
-                <el-input placeholder="Attorney's fee (lenders)" v-model="attorney_fee_lenders"></el-input>
+                <el-input type="number" placeholder="Attorney's fee (lenders)" v-model="attorney_fee_lenders"></el-input>
             </el-col>
         </el-row>
 
         <el-row :gutter="12">
             <el-col :span="12">
                 <label>Title search</label>
-                <el-input placeholder="Title search" v-model="title_search"></el-input>
+                <el-input type="number" placeholder="Title search" v-model="title_search"></el-input>
             </el-col>
             <el-col :span="12">
                 <label>Title insurance</label>
-                <el-input placeholder="Title insurance" v-model="title_insurance"></el-input>
+                <el-input type="number" placeholder="Title insurance" v-model="title_insurance"></el-input>
             </el-col>
         </el-row>
 
         <el-row :gutter="12">
             <el-col :span="12">
                 <label>Appraisal fee</label>
-                <el-input placeholder="Appraisal fee" v-model="appraisal_fee"></el-input>
+                <el-input type="number" placeholder="Appraisal fee" v-model="appraisal_fee"></el-input>
             </el-col>
             <el-col :span="12">
                 <label>Inspections</label>
-                <el-input placeholder="Inspections" v-model="inspections"></el-input>
+                <el-input type="number" placeholder="Inspections" v-model="inspections"></el-input>
             </el-col>
         </el-row>
 
         <el-row :gutter="12">
             <el-col :span="12">
                 <label>Local fees (taxes, transfers)</label>
-                <el-input placeholder="Local fees (taxes, transfers)" v-model="local_fees"></el-input>
+                <el-input type="number" placeholder="Local fees (taxes, transfers)" v-model="local_fees"></el-input>
             </el-col>
             <el-col :span="12">
                 <label>Document preparation</label>
-                <el-input placeholder="Document preparation" v-model="document_preparation"></el-input>
+                <el-input type="number" placeholder="Document preparation" v-model="document_preparation"></el-input>
             </el-col>
         </el-row>
 
         <el-row :gutter="12">
             <el-col :span="12">
                 <label>Other</label>
-                <el-input placeholder="Other" v-model="other"></el-input>
+                <el-input type="number" placeholder="Other" v-model="other"></el-input>
             </el-col>
         </el-row>
 
         <!-- End Fees Section -->
 
-        <!-- Total Cost Section -->
-
-        <p>New Monthly Pament</p>
-        <h1><span>$</span>{{ monthly_payment }}</h1>
-        <p>Monthly Savings: {{ monthly_savings }}</p>
-        <p>Difference in Interest: {{ diff_in_interest }}</p>
-        <p>Total cost: {{ total_cost }}</p>
-        <p>Months to recoup costs: {{ months_rec_costs }}</p>
-
+        <!-- All Cost Section -->
+        <div class="costs_section">
+            <p>New Monthly Pament</p>
+            <h1><span>$</span>{{ monthly_payment.toFixed(2) }}</h1>
+            <p>Monthly Savings: ${{ monthly_savings.toFixed(2) }}</p>
+            <p>Difference in Interest: ${{ diff_in_interest }}</p>
+            <p>Total cost: ${{ total_cost.toFixed(2) }}</p>
+            <p>Months to recoup costs: ${{ months_rec_costs.toFixed(2) }}</p>
+        </div>
         <!-- End Cost Section -->
     </div>
 </template>
@@ -140,7 +141,6 @@ export default {
             new_loan_term_upd: 0,
             monthly_savings: 0,
             diff_in_interest: 0,
-            months_rec_costs: 0,
             points: 0,
             pointsResult: 0,
             application_fee: 0,
@@ -269,8 +269,30 @@ export default {
                               parseInt( this.document_preparation )
                               parseInt( this.other );
 
+                } else {
+
+                    return 0;
+                
                 }
             
+            },
+
+            set: function(newValue) {}
+
+        },
+
+        months_rec_costs: {
+
+            get: function() {
+             
+                if( this.balance != 0 && this.monthly_savings != 0 ) {
+
+                    return parseFloat(( this.balance ) / ( this.monthly_savings * 100));
+
+                } else {
+                    return 0;
+                }
+
             },
 
             set: function(newValue) {}
@@ -292,9 +314,28 @@ export default {
     background-color: #F0F0F2;
     margin: 0 auto;
     padding: 10px;
+    border: 1px solid #CFCFD4;
 }
 
 .mortgage_finance_calc h1:nth-child(1) {
     text-align: center;
+}
+
+#roamingLoanItemText {
+     -webkit-appearance:none!important;
+    color:green;
+    text-align:left;
+    width:75px;
+    border:1px solid gray;
+    border-left:0px;
+    margin:0 0 0 -7px;
+    background:white;
+}
+
+#roamingLoanItem {
+    -webkit-appearance:none!important;
+    border:1px solid gray;
+    border-right:0px;
+    outline:none;
 }
 </style>
