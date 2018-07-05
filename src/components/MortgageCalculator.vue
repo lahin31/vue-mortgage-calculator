@@ -11,7 +11,8 @@
                                 min=0 
                                 name="homePrice" 
                                 id="homePrice" 
-                                v-validate="'required'"></el-input>
+                                v-validate="'required'"
+                                :class="{'error': errors.has('homePrice') }"></el-input>
                 <span v-if="errors.has('homePrice')" style="color: red;">
                     Home Price field is required
                 </span>
@@ -25,7 +26,8 @@
                                 min=0
                                 name="downPayment"
                                 id="downPayment"
-                                v-validate="'required'"></el-input>
+                                v-validate="'required'"
+                                :class="{'error': errors.has('downPayment') }"></el-input>
                 <span v-if="errors.has('downPayment')" style="color: red;">
                     Down Payment field is required
                 </span>
@@ -43,7 +45,8 @@
                                 v-model="mortgageTerm"
                                 name="mortgageTerm"
                                 id="mortgageTerm"
-                                v-validate="'required'"></el-input>
+                                v-validate="'required'"
+                                :class="{'error': errors.has('mortgageTerm') }"></el-input>
                 <span v-if="errors.has('mortgageTerm')" style="color: red;">
                     Mortgage Term field is required
                 </span>
@@ -60,7 +63,8 @@
                                 v-model="annualInterestRate" 
                                 name="annualInterestRate"
                                 id="annualInterestRate"
-                                v-validate="'required'"></el-input>
+                                v-validate="'required'"
+                                :class="{'error': errors.has('annualInterestRate') }"></el-input>
                 <span v-if="errors.has('annualInterestRate')" style="color: red;">
                     Annual Interest Rate field is required
                 </span>
@@ -253,5 +257,10 @@ export default {
 
 .mortagage_calculator h1:nth-child(1) {
     text-align: center;
+}
+
+.error {
+    border-color: red;
+    box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 5px rgba(232,68,68,.6);
 }
 </style>
