@@ -78,7 +78,8 @@
         <div style="margin-top: 10px; margin-left: 0;">
             <p>Your estimated monthly payment:</p>
             <h1><span>$</span> {{ (monthlyPayment).toFixed(3) }}</h1>
-            <p>Total principal paid: {{ principalPaid }}</p>
+            <p>Total principal paid: ${{ principalPaid }}</p>
+            <p>Total interest paid: ${{ (total_interest) }}</p>
         </div>
 
         <!-- End Cost Section -->
@@ -101,6 +102,21 @@ export default {
             myValue: 0,
             newValue: 0
         }
+    },
+
+    computed: {
+
+        total_interest() {
+
+            if( this.monthlyPayment != 0 && this.mortgageTermMonth != 0 && this.principalPaid ) {
+
+                var total_interest = ( this.monthlyPayment * this.mortgageTermMonth ) - this.principalPaid;
+                return total_interest;
+
+            }
+
+        }
+
     },
     
     watch: {
@@ -156,7 +172,11 @@ export default {
 
         mortgageTerm() {
 
-            this.mortgageTermMonth = parseFloat( this.mortgageTerm ) * 12;
+            if( this.mortgageTerm != 0 ) {
+
+                this.mortgageTermMonth = parseFloat( this.mortgageTerm ) * 12;
+
+            }
 
             if( this.principalPaid == 0 ) {
 
@@ -175,12 +195,6 @@ export default {
                 this.monthlyPayment = parseFloat( ( this.principalPaid * this.myValue ) / ( 1 - ( 1 / Math.pow( ( 1 + this.myValue ), this.mortgageTermMonth ) ) ) );
             
             }
-
-            // if( this.mortgageTerm == '' ) {
-
-            //     this.mortgageTerm = 0;
-
-            // }
 
         },
 
