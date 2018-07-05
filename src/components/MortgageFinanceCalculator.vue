@@ -42,7 +42,7 @@
         <el-row :gutter="12">
             <el-col :span="12">
                 <label>Points</label>
-                <el-input type="number" placeholder="Points" v-model="points"></el-input>
+                <el-input type="number" placeholder="Points" v-model="points" min=0></el-input>
             </el-col>
             <el-col :span="12">
                 <p>Costs of points: {{ pointsResult }}</p>
@@ -52,62 +52,62 @@
         <el-row :gutter="12">
             <el-col :span="12">
                 <label>Application fee</label>
-                <el-input type="number" placeholder="Application fee" v-model="application_fee"></el-input>
+                <el-input type="number" placeholder="Application fee" v-model="application_fee" min=0></el-input>
             </el-col>
              <el-col :span="12">
                 <label>Credit check</label>
-                <el-input placeholder="Credit check" v-model="credit_check"></el-input>
+                <el-input type="number" placeholder="Credit check" v-model="credit_check" min=0></el-input>
             </el-col>
         </el-row>
 
         <el-row :gutter="12">
             <el-col :span="12">
                 <label>Attorney's fee (yours)</label>
-                <el-input type="number" placeholder="Attorney's fee (yours)" v-model="attorney_fee_yours"></el-input>
+                <el-input type="number" placeholder="Attorney's fee (yours)" v-model="attorney_fee_yours" min=0></el-input>
             </el-col>
             <el-col :span="12">
                 <label>Attorney's fee (lenders)</label>
-                <el-input type="number" placeholder="Attorney's fee (lenders)" v-model="attorney_fee_lenders"></el-input>
+                <el-input type="number" placeholder="Attorney's fee (lenders)" v-model="attorney_fee_lenders" min=0></el-input>
             </el-col>
         </el-row>
 
         <el-row :gutter="12">
             <el-col :span="12">
                 <label>Title search</label>
-                <el-input type="number" placeholder="Title search" v-model="title_search"></el-input>
+                <el-input type="number" placeholder="Title search" v-model="title_search" min=0></el-input>
             </el-col>
             <el-col :span="12">
                 <label>Title insurance</label>
-                <el-input type="number" placeholder="Title insurance" v-model="title_insurance"></el-input>
+                <el-input type="number" placeholder="Title insurance" v-model="title_insurance" min=0></el-input>
             </el-col>
         </el-row>
 
         <el-row :gutter="12">
             <el-col :span="12">
                 <label>Appraisal fee</label>
-                <el-input type="number" placeholder="Appraisal fee" v-model="appraisal_fee"></el-input>
+                <el-input type="number" placeholder="Appraisal fee" v-model="appraisal_fee" min=0></el-input>
             </el-col>
             <el-col :span="12">
                 <label>Inspections</label>
-                <el-input type="number" placeholder="Inspections" v-model="inspections"></el-input>
+                <el-input type="number" placeholder="Inspections" v-model="inspections" min=0></el-input>
             </el-col>
         </el-row>
 
         <el-row :gutter="12">
             <el-col :span="12">
                 <label>Local fees (taxes, transfers)</label>
-                <el-input type="number" placeholder="Local fees (taxes, transfers)" v-model="local_fees"></el-input>
+                <el-input type="number" placeholder="Local fees (taxes, transfers)" v-model="local_fees" min=0></el-input>
             </el-col>
             <el-col :span="12">
                 <label>Document preparation</label>
-                <el-input type="number" placeholder="Document preparation" v-model="document_preparation"></el-input>
+                <el-input type="number" placeholder="Document preparation" v-model="document_preparation" min=0></el-input>
             </el-col>
         </el-row>
 
         <el-row :gutter="12">
             <el-col :span="12">
                 <label>Other</label>
-                <el-input type="number" placeholder="Other" v-model="other"></el-input>
+                <el-input type="number" placeholder="Other" v-model="other" min=0></el-input>
             </el-col>
         </el-row>
 
@@ -266,7 +266,7 @@ export default {
                               parseInt( this.appraisal_fee ) + 
                               parseInt( this.inspections ) +
                               parseInt( this.local_fees ) +
-                              parseInt( this.document_preparation )
+                              parseInt( this.document_preparation ) +
                               parseInt( this.other );
 
                 } else {
