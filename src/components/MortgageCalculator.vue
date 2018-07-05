@@ -53,7 +53,10 @@
             </el-col>
             <el-col :span="12">
                 <label>Mortgage term month</label>
-                <el-input type="number" placeholder="Mortgage Term Month" v-model="mortgageTermMonth"></el-input>
+                <el-input type="number" 
+                                placeholder="Mortgage Term Month" 
+                                v-model="mortgageTermMonth"
+                                min=0></el-input>
             </el-col>
         </el-row>
         <el-row :gutter="15">
@@ -79,7 +82,7 @@
             <p>Your estimated monthly payment:</p>
             <h1><span>$</span> {{ (monthlyPayment).toFixed(3) }}</h1>
             <p>Total principal paid: ${{ principalPaid }}</p>
-            <p>Total interest paid: ${{ (total_interest) }}</p>
+            <p>Total interest paid: ${{ (total_interest).toFixed(2) }}</p>
         </div>
 
         <!-- End Cost Section -->
@@ -112,6 +115,10 @@ export default {
 
                 var total_interest = ( this.monthlyPayment * this.mortgageTermMonth ) - this.principalPaid;
                 return total_interest;
+
+            } else {
+
+                return 0;
 
             }
 

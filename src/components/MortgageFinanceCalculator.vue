@@ -250,11 +250,9 @@ export default {
     },
     computed: {
 
-        total_cost: {
+        total_cost() {
 
-           get: function() {
-
-                if( this.pointsResult != 0 ) {
+            if( this.pointsResult != 0 ) {
 
                    return this.pointsResult + 
                               parseInt( this.application_fee ) + 
@@ -274,28 +272,20 @@ export default {
                     return 0;
                 
                 }
-            
-            },
-
-            set: function(newValue) {}
 
         },
 
-        months_rec_costs: {
+        months_rec_costs() {
 
-            get: function() {
-             
-                if( this.balance != 0 && this.monthly_savings != 0 ) {
+            if( this.balance != 0 && this.monthly_savings != 0 ) {
 
-                    return parseFloat(( this.balance ) / ( this.monthly_savings * 100));
+                return parseFloat(( this.balance ) / ( this.monthly_savings * 100));
 
-                } else {
-                    return 0;
-                }
+            } else {
 
-            },
-
-            set: function(newValue) {}
+                return 0;
+                
+            }
 
         }
 
