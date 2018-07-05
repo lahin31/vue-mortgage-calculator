@@ -101,57 +101,43 @@ export default {
 
     computed: {
 
-        pi: {
+        pi() {
 
-            get: function() {
+            if( this.interest_rate != 0 && this.mortgage_amount != 0 && this.term_in_years != 0 ) {
 
-                if( this.interest_rate != 0 && this.mortgage_amount != 0 && this.term_in_years != 0 ) {
+                var interest_rate_perc = parseFloat( this.interest_rate ) / 12;
+                var interest_rate_ans = parseFloat( interest_rate_perc ) / 100;
 
-                    var interest_rate_perc = parseFloat( this.interest_rate ) / 12;
-                    var interest_rate_ans = parseFloat( interest_rate_perc ) / 100;
-
-                    var int_rate_amnt = parseFloat(interest_rate_ans * this.mortgage_amount);
-                    var total_month = parseFloat( this.term_in_years ) * 12;
+                var int_rate_amnt = parseFloat(interest_rate_ans * this.mortgage_amount);
+                var total_month = parseFloat( this.term_in_years ) * 12;
 
 
-                    var pi = int_rate_amnt / (  1 - (Math.pow((1 + interest_rate_ans), -(total_month) )));
-                    return pi;
+                var pi = int_rate_amnt / (  1 - (Math.pow((1 + interest_rate_ans), -(total_month) )));
+                return pi;
 
-                }
-
-            },
-
-            set: function(newValue) {}
+            }
 
         },
 
-        piti: {
+        piti() {
 
-            get: function() {
+            if( this.interest_rate != 0 && this.mortgage_amount != 0 && this.term_in_years != 0 && ( this.annual_property_taxes != 0 || this.annual_property_insurance != 0 )) {
 
-                if( this.interest_rate != 0 && this.mortgage_amount != 0 && this.term_in_years != 0 && ( this.annual_property_taxes != 0 || this.annual_property_insurance != 0 )) {
+                var interest_rate_perc = parseFloat( this.interest_rate ) / 12;
+                var interest_rate_ans = parseFloat( interest_rate_perc ) / 100;
 
-                    var interest_rate_perc = parseFloat( this.interest_rate ) / 12;
-                    var interest_rate_ans = parseFloat( interest_rate_perc ) / 100;
-
-                    var int_rate_amnt = parseFloat(interest_rate_ans * this.mortgage_amount);
-                    var total_month = parseFloat( this.term_in_years ) * 12;
+                var int_rate_amnt = parseFloat(interest_rate_ans * this.mortgage_amount);
+                var total_month = parseFloat( this.term_in_years ) * 12;
 
 
-                    var pi = int_rate_amnt / (  1 - (Math.pow((1 + interest_rate_ans), -(total_month) )));
-                    
-                    
-                    var piti = pi + ( this.annual_property_taxes / 12 ) + (this.annual_property_insurance / 12);
+                var pi = int_rate_amnt / (  1 - (Math.pow((1 + interest_rate_ans), -(total_month) )));
+                
+                
+                var piti = pi + ( this.annual_property_taxes / 12 ) + (this.annual_property_insurance / 12);
 
-                    return piti;
+                return piti;
 
-                } 
-
-            },
-             
-            set: function(newValue) {
-
-            }
+            } 
 
         }
 
