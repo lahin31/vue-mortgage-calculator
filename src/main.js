@@ -4,7 +4,7 @@ import VeeValidate from 'vee-validate'
 import App from './App.vue'
 import ElementUI from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css';
-import { Main, Row, Col } from 'element-ui';
+import { Main, Row, Col, Input } from 'element-ui';
 import MortgageCalculator from './components/MortgageCalculator.vue'
 import MortgageFinanceCalculator from './components/MortgageFinanceCalculator.vue'
 import MortgagePaymentCalculator from './components/MortgagePaymentCalculator.vue'
@@ -16,6 +16,7 @@ Vue.use(ElementUI)
 Vue.use(Main)
 Vue.use(Row)
 Vue.use(Col)
+Vue.use(Input)
 
 const routes = [
   { path: '/', component: MortgageCalculator },

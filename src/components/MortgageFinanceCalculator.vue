@@ -4,32 +4,32 @@
         <el-row :gutter="12">
             <el-col :span="12">
                 <label>Current monthly payment</label>
-                <el-input type="number" placeholder="Current monthly payment" v-model="current_monthly_payment"></el-input>
+                <el-input type="number" min=0 placeholder="Current monthly payment" v-model="current_monthly_payment"></el-input>
             </el-col>
             <el-col :span="12">
                 <label>Current loan interest rate</label>
-                <el-input type="number" placeholder="Current loan interest rate"  v-model="current_loan_interest_rate"></el-input>
+                <el-input type="number" min=0 placeholder="Current loan interest rate"  v-model="current_loan_interest_rate"></el-input>
             </el-col>
         </el-row>
         <el-row :gutter="12">
             <el-col :span="12">
                 <label>Balance left on mortgage</label>
-                <el-input type="number" placeholder="Balance left on mortgage" v-model="balance"></el-input>
+                <el-input type="number" min=0 placeholder="Balance left on mortgage" v-model="balance"></el-input>
             </el-col>
             <el-col :span="12">
                 <label>New interest rate</label>
-                <el-input type="number" placeholder="New interest rate" v-model="new_interest_rate"></el-input>
+                <el-input type="number" min=0 placeholder="New interest rate" v-model="new_interest_rate"></el-input>
             </el-col>
         </el-row>
          <el-row :gutter="12">
             <el-col :span="12">
                 <label>Remaining loan term</label>
-                <el-input type="number" placeholder="Remaining loan term" v-model="remaining_loan_term"></el-input>
+                <el-input type="number" min=0 placeholder="Remaining loan term" v-model="remaining_loan_term"></el-input>
                 <!-- <el-input id="roamingLoanItemText" value="years" disabled></el-input> -->
             </el-col>
             <el-col :span="12">
                 <label>New loan term</label>
-                <el-input type="number" placeholder="New interest rate" v-model="new_loan_term"></el-input>
+                <el-input type="number" min=0 placeholder="New interest rate" v-model="new_loan_term"></el-input>
             </el-col>
         </el-row>
 

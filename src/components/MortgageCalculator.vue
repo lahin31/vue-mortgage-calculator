@@ -22,6 +22,7 @@
                 <label>Down Pament</label>
                 <el-input type="number" placeholder="Down Payment" 
                                 v-model="downPament" 
+                                min=0
                                 name="downPayment"
                                 id="downPayment"
                                 v-validate="'required'"></el-input>
@@ -38,7 +39,7 @@
         <el-row :gutter="15">
             <el-col :span="12">
                 <label>Mortgage term</label>
-                <el-input type="number" placeholder="Mortgage Term" 
+                <el-input type="number" placeholder="Mortgage Term" min=0
                                 v-model="mortgageTerm"
                                 name="mortgageTerm"
                                 id="mortgageTerm"
@@ -55,7 +56,7 @@
         <el-row :gutter="15">
             <el-col :span="12">
                 <label>Annual interest rate</label>
-                <el-input type="number" placeholder="Annual interest rate" 
+                <el-input type="number" placeholder="Annual interest rate" min=0
                                 v-model="annualInterestRate" 
                                 name="annualInterestRate"
                                 id="annualInterestRate"

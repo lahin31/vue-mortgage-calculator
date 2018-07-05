@@ -6,7 +6,8 @@
             <el-row>
                 <el-col :span="12">
                     <label>Mortgage Amount</label>
-                    <el-input placeholder="Mortgage Amount" v-model="mortgage_amount"
+                    <el-input type="number" placeholder="Mortgage Amount" v-model="mortgage_amount" 
+                                    min=0
                                     name="mortgage_amount"
                                     id="mortgage_amount"
                                     v-validate="'required'"></el-input>
@@ -18,7 +19,8 @@
             <el-row>
                 <el-col :span="12">
                     <label>Term in years</label>
-                    <el-input placeholder="Term in years" v-model="term_in_years"
+                    <el-input type="number" placeholder="Term in years" v-model="term_in_years" 
+                                    min=0
                                     name="term_in_years"
                                     id="term_in_years"
                                     v-validate="'required'"></el-input>
@@ -30,7 +32,8 @@
             <el-row>
                 <el-col :span="12">
                     <label>Interest Rate</label>
-                    <el-input placeholder="Interest Rate" v-model="interest_rate"
+                    <el-input type="number" placeholder="Interest Rate" v-model="interest_rate" 
+                                    min=0
                                     name="interest_rate"
                                     id="interest_rate"
                                     v-validate="'required'"></el-input>
@@ -42,7 +45,8 @@
             <el-row>
                 <el-col :span="12">
                     <label>Annual property taxes</label>
-                    <el-input placeholder="Annual property taxes" v-model="annual_property_taxes"
+                    <el-input type="number" placeholder="Annual property taxes" v-model="annual_property_taxes" 
+                                    min=0
                                     name="annual_property_taxes"
                                     id="annual_property_taxes"
                                     v-validate="'required'"></el-input>
@@ -54,7 +58,8 @@
              <el-row>
                 <el-col :span="12">
                     <label>Annual Home Insurance</label>
-                    <el-input placeholder="Annual Home Insurance" v-model="annual_property_insurance"
+                    <el-input type="number" placeholder="Annual Home Insurance" v-model="annual_property_insurance"
+                                    min=0
                                     name="annual_property_insurance"
                                     id="annual_property_insurance"
                                     v-validate="'required'"></el-input>
