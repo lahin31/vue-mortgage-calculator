@@ -12,7 +12,7 @@
     </nav>
 </template>
 
-<style>
+<style scoped>
 p {
     font-size: 18px;
     padding: 5px;

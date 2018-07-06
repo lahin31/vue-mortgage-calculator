@@ -73,13 +73,13 @@
             <el-row>
                 <el-col :span="12">
                     <label><strong>Monthly Payment(PI):</strong></label>
-                    <p>{{ pi }}</p>
+                    <p>${{ pi.toFixed(2) }}</p>
                 </el-col>
             </el-row>
              <el-row>
                 <el-col :span="12">
                     <label><strong>Monthly Payment(PITI):</strong></label>
-                    <p>{{ piti }}</p>
+                    <p>${{ piti.toFixed(2) }}</p>
                 </el-col>
             </el-row>
         </div>
@@ -115,6 +115,10 @@ export default {
                 var pi = int_rate_amnt / (  1 - (Math.pow((1 + interest_rate_ans), -(total_month) )));
                 return pi;
 
+            } else {
+
+                return 0;
+
             }
 
         },
@@ -137,7 +141,11 @@ export default {
 
                 return piti;
 
-            } 
+            } else {
+
+                return 0;
+
+            }
 
         }
 

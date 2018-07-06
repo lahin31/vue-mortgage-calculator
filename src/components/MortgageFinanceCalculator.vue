@@ -4,32 +4,85 @@
         <el-row :gutter="12">
             <el-col :span="12">
                 <label>Current monthly payment</label>
-                <el-input type="number" min=0 placeholder="Current monthly payment" v-model="current_monthly_payment"></el-input>
+                <el-input type="number" min=0 
+                                placeholder="Current monthly payment" 
+                                v-model="current_monthly_payment"
+                                name="current_monthly_payment"
+                                id="current_monthly_payment"
+                                v-validate="'required'"
+                                :class="{'error': errors.has('current_monthly_payment') }"></el-input>
+                <span v-if="errors.has('current_monthly_payment')" style="color: red;">
+                    Current monthly payment field is required
+                </span>
             </el-col>
             <el-col :span="12">
                 <label>Current loan interest rate</label>
-                <el-input type="number" min=0 placeholder="Current loan interest rate"  v-model="current_loan_interest_rate"></el-input>
+                <el-input type="number" min=0 
+                                placeholder="Current loan interest rate"  
+                                v-model="current_loan_interest_rate"
+                                name="current_loan_interest_rate"
+                                id="current_loan_interest_rate"
+                                v-validate="'required'"
+                                :class="{'error': errors.has('current_loan_interest_rate') }"></el-input>
+                <span v-if="errors.has('current_loan_interest_rate')" style="color: red;">
+                    Current loan interest rate field is required
+                </span>
             </el-col>
         </el-row>
         <el-row :gutter="12">
             <el-col :span="12">
                 <label>Balance left on mortgage</label>
-                <el-input type="number" min=0 placeholder="Balance left on mortgage" v-model="balance"></el-input>
+                <el-input type="number" min=0 
+                                placeholder="Balance left on mortgage" 
+                                name="balance"
+                                id="balance"
+                                v-model="balance"
+                                v-validate="'required'"
+                                :class="{'error': errors.has('balance') }"></el-input>
+                <span v-if="errors.has('balance')" style="color: red;">
+                    Balance field is required
+                </span>
             </el-col>
             <el-col :span="12">
                 <label>New interest rate</label>
-                <el-input type="number" min=0 placeholder="New interest rate" v-model="new_interest_rate"></el-input>
+                <el-input type="number" min=0 
+                                placeholder="New interest rate" 
+                                name="new_interest_rate"
+                                id="new_interest_rate"
+                                v-model="new_interest_rate"
+                                v-validate="'required'"
+                                :class="{'error': errors.has('new_interest_rate') }"></el-input>
+                <span v-if="errors.has('new_interest_rate')" style="color: red;">
+                    New interest rate field is required
+                </span>
             </el-col>
         </el-row>
          <el-row :gutter="12">
             <el-col :span="12">
                 <label>Remaining loan term</label>
-                <el-input type="number" min=0 placeholder="Remaining loan term" v-model="remaining_loan_term"></el-input>
-                <!-- <el-input id="roamingLoanItemText" value="years" disabled></el-input> -->
+                <el-input type="number" min=0 
+                                placeholder="Remaining loan term" 
+                                name="remaining_loan_term"
+                                id="remaining_loan_term"
+                                v-model="remaining_loan_term"
+                                v-validate="'required'"
+                                :class="{'error': errors.has('remaining_loan_term') }"></el-input>
+                <span v-if="errors.has('remaining_loan_term')" style="color: red;">
+                    Remaining loan term field is required
+                </span>
             </el-col>
             <el-col :span="12">
                 <label>New loan term</label>
-                <el-input type="number" min=0 placeholder="New interest rate" v-model="new_loan_term"></el-input>
+                <el-input type="number" min=0 
+                                placeholder="New loan term" 
+                                name="new_loan_term"
+                                id="new_loan_term"
+                                v-model="new_loan_term"
+                                v-validate="'required'"
+                                :class="{'error': errors.has('new_loan_term') }"></el-input>
+                <span v-if="errors.has('new_loan_term')" style="color: red;">
+                    New loan term field is required
+                </span>
             </el-col>
         </el-row>
 
@@ -40,13 +93,24 @@
         <!-- Fees Section -->
 
         <el-row :gutter="12">
+
             <el-col :span="12">
                 <label>Points</label>
-                <el-input type="number" placeholder="Points" v-model="points" min=0></el-input>
+                <el-input type="number" placeholder="Points" 
+                                v-model="points" 
+                                name="points"
+                                id="points"
+                                min=0
+                                v-validate="'required'"></el-input>
+                <span v-if="errors.has('points')" style="color: red;">
+                    Points field is required
+                </span>
             </el-col>
+
             <el-col :span="12">
                 <p>Costs of points: {{ pointsResult }}</p>
             </el-col>
+
         </el-row>
 
         <el-row :gutter="12">
@@ -94,21 +158,26 @@
         </el-row>
 
         <el-row :gutter="12">
+
             <el-col :span="12">
                 <label>Local fees (taxes, transfers)</label>
                 <el-input type="number" placeholder="Local fees (taxes, transfers)" v-model="local_fees" min=0></el-input>
             </el-col>
+
             <el-col :span="12">
                 <label>Document preparation</label>
                 <el-input type="number" placeholder="Document preparation" v-model="document_preparation" min=0></el-input>
             </el-col>
+
         </el-row>
 
         <el-row :gutter="12">
+
             <el-col :span="12">
                 <label>Other</label>
                 <el-input type="number" placeholder="Other" v-model="other" min=0></el-input>
             </el-col>
+            
         </el-row>
 
         <!-- End Fees Section -->
@@ -118,7 +187,7 @@
             <p>New Monthly Pament</p>
             <h1><span>$</span>{{ monthly_payment.toFixed(2) }}</h1>
             <p>Monthly Savings: ${{ monthly_savings.toFixed(2) }}</p>
-            <p>Difference in Interest: ${{ diff_in_interest }}</p>
+            <p>Difference in Interest: ${{ diff_in_interest.toFixed(2) }}</p>
             <p>Total cost: ${{ total_cost.toFixed(2) }}</p>
             <p>Months to recoup costs: ${{ months_rec_costs.toFixed(2) }}</p>
         </div>
@@ -140,7 +209,6 @@ export default {
             new_interest_rate_upd: 0,
             new_loan_term_upd: 0,
             monthly_savings: 0,
-            diff_in_interest: 0,
             points: 0,
             pointsResult: 0,
             application_fee: 0,
@@ -252,20 +320,20 @@ export default {
 
         total_cost() {
 
-            if( this.pointsResult != 0 ) {
+            if( this.pointsResult ) {
 
-                   return this.pointsResult + 
-                              parseInt( this.application_fee ) + 
-                              parseInt( this.credit_check ) +
-                              parseInt( this.attorney_fee_yours ) +
-                              parseInt( this.attorney_fee_lenders ) +
-                              parseInt( this.title_search ) +
-                              parseInt( this.title_insurance ) + 
-                              parseInt( this.appraisal_fee ) + 
-                              parseInt( this.inspections ) +
-                              parseInt( this.local_fees ) +
-                              parseInt( this.document_preparation ) +
-                              parseInt( this.other );
+                return this.pointsResult + 
+                        parseFloat( this.application_fee ) + 
+                        parseFloat( this.credit_check ) +
+                        parseFloat( this.attorney_fee_yours ) +
+                        parseFloat( this.attorney_fee_lenders ) +
+                        parseFloat( this.title_search ) +
+                        parseFloat( this.title_insurance ) + 
+                        parseFloat( this.appraisal_fee ) + 
+                        parseFloat( this.inspections ) +
+                        parseFloat( this.local_fees ) +
+                        parseFloat( this.document_preparation ) +
+                        parseFloat( this.other );
 
                 } else {
 
@@ -285,6 +353,23 @@ export default {
 
                 return 0;
                 
+            }
+
+        },
+
+        diff_in_interest() {
+
+            if( this.current_monthly_payment != 0 && this.balance != 0 && this.remaining_loan_term != 0 && this.new_loan_term != 0 && this.monthly_payment != 0 ) {
+
+                var old_interest_rate = ( this.current_monthly_payment * ( this.remaining_loan_term * 12 ) ) - this.balance;
+                var new_interest_rate = ( this.monthly_payment * ( this.new_loan_term * 12 ) )  - this.balance;
+
+                return (old_interest_rate - new_interest_rate);
+
+            } else {
+
+                return 0;
+
             }
 
         }
@@ -327,5 +412,10 @@ export default {
     border:1px solid gray;
     border-right:0px;
     outline:none;
+}
+
+.error {
+    border-color: red;
+    box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 5px rgba(232,68,68,.6);
 }
 </style>

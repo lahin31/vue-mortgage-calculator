@@ -7,8 +7,8 @@
         <el-row :gutter="15">
             <el-col :span="24">
                 <label>Home Price</label>
-                <el-input type="number" placeholder="Home Price" v-model="homePrice" 
-                                min=0 
+                <el-input type="number" min=0 placeholder="Home Price" 
+                                v-model="homePrice" 
                                 name="homePrice" 
                                 id="homePrice" 
                                 v-validate="'required'"
@@ -79,10 +79,70 @@
         <!-- All Cost Section -->
 
         <div style="margin-top: 10px; margin-left: 0;">
+
             <p>Your estimated monthly payment:</p>
             <h1><span>$</span> {{ (monthlyPayment).toFixed(3) }}</h1>
             <p>Total principal paid: ${{ principalPaid }}</p>
             <p>Total interest paid: ${{ (total_interest).toFixed(2) }}</p>
+        
+        </div>
+
+        <el-row>
+
+            <el-col>
+
+                <el-button @click="paymentSchedule()" type="success">Payment Schedule</el-button>
+
+            </el-col>
+            
+        </el-row>
+
+        <div v-if="showTable">
+            <el-row>
+
+                <el-col :span="12">
+
+                    <label>Start Date</label>
+                    <el-input v-model="date"></el-input>
+
+                </el-col>
+
+            </el-row>
+
+            <p><strong>Amortization Schedule</strong></p>
+
+            <table>
+
+                <thead>
+
+                    <tr>
+
+                        <th v-for="key in gridColumns"
+                               :key="key">
+                            
+                            {{ key | capitalize }}
+
+                        </th>
+
+                    </tr>
+
+                </thead>
+                <tbody>
+                    
+                    <tr v-for="(entry, i) in gridData" :key="i">
+
+                        <td v-for="(key, j) in gridColumns" :key="j">
+
+                            {{ entry[key] }}
+
+                        </td>
+
+                    </tr>
+
+                </tbody>
+
+            </table>
+
         </div>
 
         <!-- End Cost Section -->
@@ -103,17 +163,52 @@ export default {
             monthlyPayment: 0,
             principalPaid: 0,
             myValue: 0,
-            newValue: 0
+            newValue: 0,
+            date: "",
+            showTable: false,
+            gridColumns: [
+                'PaymentDate', 'payment', 'principal', 'interest', 'totalInterest', 'balance'
+            ],
+            gridData: [
+                { PaymentDate: '22 July 2018', payment: 0, principal: 0, interest: 0, totalInterest: 0, balance: 0 }
+            ]
         }
+    },
+
+    created() {
+
+        var today = new Date();
+        var dd = today.getDate();
+        var mm = today.getMonth();
+        var year = today.getFullYear();
+
+        if( dd < 10 ) {
+
+            dd = '0' + dd;
+
+        }
+
+        if( mm < 10 ) {
+
+            mm = '0' + mm;
+
+        }
+
+        today = mm + '/' + dd + "/" + year;
+        this.date = today;
+
     },
 
     computed: {
 
         total_interest() {
 
-            if( this.monthlyPayment != 0 && this.mortgageTermMonth != 0 && this.principalPaid ) {
+            if( this.monthlyPayment != 0 && this.mortgageTermMonth != 0 && this.principalPaid != 0 ) {
 
-                var total_interest = ( this.monthlyPayment * this.mortgageTermMonth ) - this.principalPaid;
+                console.log( "Monthly Payment " + this.monthlyPayment );
+                console.log( " Mortgage Term Month " + this.mortgageTermMonth );
+                console.log( " Principal Paid " + this.principalPaid );
+                var total_interest = parseFloat( ( this.monthlyPayment * this.mortgageTermMonth ) - this.principalPaid );
                 return total_interest;
 
             } else {
@@ -175,6 +270,7 @@ export default {
                 this.monthlyPayment =  parseFloat( ( ( this.principalPaid * this.myValue ) / ( 1 - ( 1 / Math.pow( ( 1 + this.myValue ), this.mortgageTermMonth ) ) ) ) );
             
             }
+
         },
 
         mortgageTerm() {
@@ -262,6 +358,35 @@ export default {
                 
         //     }
         // }
+    },
+    filters: {
+
+        capitalize: function (str) {
+        
+            return str.charAt(0).toUpperCase() + str.slice(1)
+        
+        }
+
+    },
+    methods: {
+
+        paymentSchedule() {
+
+            this.showTable=! this.showTable;
+            this.gridData.forEach(element => {
+                element.payment = (this.monthlyPayment).toFixed(2);
+
+                var interest = ( ( this.principalPaid * ( this.annualInterestRate / 100 ) ) / 12 ).toFixed(2);
+
+                element.interest = interest;
+                element.totalInterest = interest + 0;
+
+                element.principal = ( this.monthlyPayment - element.interest ).toFixed(2);
+                element.balance = ( this.principalPaid - element.principal ).toFixed(2); 
+            });
+
+        }
+
     }
 }
 </script>
@@ -283,5 +408,43 @@ export default {
 .error {
     border-color: red;
     box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 5px rgba(232,68,68,.6);
+}
+
+body {
+  font-family: Helvetica Neue, Arial, sans-serif;
+  font-size: 14px;
+  color: #444;
+}
+
+table {
+  border: 2px solid #42b983;
+  border-radius: 3px;
+  background-color: #fff;
+}
+
+th {
+  background-color: #4CAF50;
+  color: rgba(255,255,255,0.66);
+  cursor: pointer;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+td {
+  background-color: #f9f9f9;
+}
+
+th, td {
+  padding: 10px 18px;
+}
+
+th.active {
+  color: #fff;
+}
+
+th.active .arrow {
+  opacity: 1;
 }
 </style>
