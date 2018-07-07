@@ -7,7 +7,7 @@
         <el-row :gutter="15">
             <el-col :span="24">
                 <label>Home Price</label>
-                <el-input type="number" min=0 placeholder="Home Price" 
+                <el-input type="text" placeholder="Home Price" 
                                 v-model="homePrice" 
                                 name="homePrice" 
                                 id="homePrice" 
@@ -91,7 +91,8 @@
 
             <el-col>
 
-                <el-button @click="paymentSchedule()" type="success">Payment Schedule</el-button>
+                <el-button @click="paymentSchedule()" type="success" v-if="showTable==false">Payment Schedule</el-button>
+                <el-button @click="hidePaymentSchedule()" type="danger" v-if="showTable==true">Hide Payment Schedule</el-button>
 
             </el-col>
             
@@ -169,9 +170,7 @@ export default {
             gridColumns: [
                 'PaymentDate', 'payment', 'principal', 'interest', 'totalInterest', 'balance'
             ],
-            gridData: [
-                { PaymentDate: '22 July 2018', payment: 0, principal: 0, interest: 0, totalInterest: 0, balance: 0 }
-            ]
+            gridData: []
         }
     },
 
@@ -223,7 +222,13 @@ export default {
     
     watch: {
 
-        homePrice(){
+        'homePrice': function(val, oldVal) {
+
+            if( val == null) {
+
+                console.log("Please don't blank the input field");
+
+            }
 
             if( this.principalPaid == 0 ) {
 
@@ -372,18 +377,53 @@ export default {
 
         paymentSchedule() {
 
-            this.showTable=! this.showTable;
-            this.gridData.forEach(element => {
-                element.payment = (this.monthlyPayment).toFixed(2);
+            this.showTable= true;
+            var p;
+            var i = 0;
+            while( i <= this.monthlyPayment ) {
 
-                var interest = ( ( this.principalPaid * ( this.annualInterestRate / 100 ) ) / 12 ).toFixed(2);
+                this.gridData.push({
+                    PaymentDate: '21/Feb/2011',
+                    payment: 0,
+                    principal: 0,
+                    interest: 0,
+                    totalInterest: 0,
+                    balance: 0
+                })
+                p = this.principalPaid;
+                var ann_int = this.annualInterestRate;
+                var total_interest = 0;
+                this.gridData.forEach(element => {
+                    element.payment = (this.monthlyPayment).toFixed(3);
 
-                element.interest = interest;
-                element.totalInterest = interest + 0;
+                    var interest = ( ( p * (  ann_int / 100 ) ) / 12 ).toFixed(3);
 
-                element.principal = ( this.monthlyPayment - element.interest ).toFixed(2);
-                element.balance = ( this.principalPaid - element.principal ).toFixed(2); 
-            });
+                    element.interest = interest;
+                    total_interest = (parseFloat(interest) + total_interest);
+                    element.totalInterest = total_interest.toFixed(3);
+
+                    element.principal = ( this.monthlyPayment - element.interest ).toFixed(2);
+                    if( ( p - element.principal ).toFixed(3) < 1 ) {
+                        element.balance = 0.000;
+                    }
+                    element.balance = ( p - element.principal ).toFixed(3); 
+                    p = element.balance;
+
+                });
+
+                i = this.monthlyPayment - p;
+
+                if( p < 1 ) {
+                    break;
+                }
+            }
+
+        },
+
+        hidePaymentSchedule() {
+
+            this.showTable = false;
+            this.gridData.length = 0;
 
         }
 
