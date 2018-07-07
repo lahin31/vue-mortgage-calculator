@@ -104,7 +104,7 @@
                 <el-col :span="12">
 
                     <label>Start Date</label>
-                    <el-input v-model="date"></el-input>
+                    <el-input v-model="date" v-on:blur="myBlurFun()"></el-input>
 
                 </el-col>
 
@@ -155,12 +155,12 @@
 export default {
     data() {
         return {
-            homePrice: 0,
-            downPament: 0,
+            homePrice: 120000,
+            downPament: 20000,
             downPamentPerc: 0,
-            mortgageTerm: 0,
-            mortgageTermMonth: 0,
-            annualInterestRate: 0,
+            mortgageTerm: 30,
+            mortgageTermMonth: 360,
+            annualInterestRate: 12,
             monthlyPayment: 0,
             principalPaid: 0,
             myValue: 0,
@@ -170,7 +170,11 @@ export default {
             gridColumns: [
                 'PaymentDate', 'payment', 'principal', 'interest', 'totalInterest', 'balance'
             ],
-            gridData: []
+            gridData: [],
+            months: [
+                'Jan', 'Feb', 'Mar', 'Apr', 'May', 'June', 'July', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'
+            ],
+            month: 0,
         }
     },
 
@@ -180,7 +184,7 @@ export default {
         var dd = today.getDate();
         var mm = today.getMonth();
         var year = today.getFullYear();
-
+        this.month = mm;
         if( dd < 10 ) {
 
             dd = '0' + dd;
@@ -195,6 +199,13 @@ export default {
 
         today = mm + '/' + dd + "/" + year;
         this.date = today;
+
+        var ann_int_rate = ( this.annualInterestRate / 12);
+        ann_int_rate /= 100;
+        var principalPaid = this.downPament;
+        var homePrice = this.homePrice - this.downPament;
+        this.principalPaid = homePrice;
+        this.monthlyPayment = parseFloat( ( ( homePrice * ann_int_rate ) / ( 1 - ( 1 / Math.pow( ( 1 + ann_int_rate ), this.mortgageTermMonth ) ) ) ) );
 
     },
 
@@ -383,7 +394,7 @@ export default {
             while( i <= this.monthlyPayment ) {
 
                 this.gridData.push({
-                    PaymentDate: '21/Feb/2011',
+                    PaymentDate: '',
                     payment: 0,
                     principal: 0,
                     interest: 0,
@@ -393,29 +404,44 @@ export default {
                 p = this.principalPaid;
                 var ann_int = this.annualInterestRate;
                 var total_interest = 0;
+                var monthIndex = this.month + 1;
                 this.gridData.forEach(element => {
+
+        
+                    element.PaymentDate = this.months[monthIndex];
+
                     element.payment = (this.monthlyPayment).toFixed(3);
 
-                    var interest = ( ( p * (  ann_int / 100 ) ) / 12 ).toFixed(3);
+                    var interest = parseFloat( ( p * (  ann_int / 100 ) ) / 12 );
 
-                    element.interest = interest;
-                    total_interest = (parseFloat(interest) + total_interest);
-                    element.totalInterest = total_interest.toFixed(3);
+                    element.interest = interest.toFixed(2);
+                    total_interest = (parseFloat(interest) + parseFloat(total_interest));
+                    element.totalInterest = total_interest.toFixed(2);
 
                     element.principal = ( this.monthlyPayment - element.interest ).toFixed(2);
-                    if( ( p - element.principal ).toFixed(3) < 1 ) {
-                        element.balance = 0.000;
+                    var principal_upd = ( this.monthlyPayment - element.interest );
+                    element.balance = ( p - principal_upd ).toFixed(2); 
+                    var balance_upd = ( p - principal_upd );
+                    p = balance_upd;
+
+                    monthIndex+=1;
+                    if(monthIndex == 12) {
+                        monthIndex = 0;
                     }
-                    element.balance = ( p - element.principal ).toFixed(3); 
-                    p = element.balance;
+
+                    if( Math.sign(p) == -1 ) {
+
+                        p = 0;
+
+                    }
 
                 });
 
-                i = this.monthlyPayment - p;
-
-                if( p < 1 ) {
+                if( p == 0 ) {
                     break;
                 }
+                i = this.monthlyPayment - p;
+            
             }
 
         },
@@ -424,6 +450,17 @@ export default {
 
             this.showTable = false;
             this.gridData.length = 0;
+
+        },
+
+        myBlurFun() {
+
+            var str = this.date;
+            var ch = str.substring(3, 5);
+            this.month = parseInt(ch) - 1;
+            console.log(this.month);
+
+            this.paymentSchedule();
 
         }
 

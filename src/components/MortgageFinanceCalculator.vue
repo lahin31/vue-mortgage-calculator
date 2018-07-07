@@ -199,17 +199,17 @@
 export default {
     data() {
         return {
-            current_monthly_payment: 0,
-            current_loan_interest_rate: 0,
-            balance: 0,
-            new_interest_rate: 0,
-            remaining_loan_term: 0,
-            new_loan_term: 0,
+            current_monthly_payment: 12500,
+            current_loan_interest_rate: 12,
+            balance: 263589,
+            new_interest_rate: 2.5,
+            remaining_loan_term: 3.5,
+            new_loan_term:5,
             monthly_payment: 0,
             new_interest_rate_upd: 0,
             new_loan_term_upd: 0,
             monthly_savings: 0,
-            points: 0,
+            points: 1,
             pointsResult: 0,
             application_fee: 0,
             credit_check: 0,
@@ -224,6 +224,22 @@ export default {
             other: 0
         }
     },
+
+    created() {
+
+        var new_interest_rate_upd = this.new_interest_rate / 12;
+        console.log(new_interest_rate_upd);
+        var interest_rate = new_interest_rate_upd / 100;
+        console.log(interest_rate);
+        var new_loan_term_mnt = this.new_loan_term * 12;
+        console.log(new_loan_term_mnt);
+        this.monthly_payment = parseFloat( ( ( this.balance * interest_rate ) / ( 1 - ( 1 / Math.pow( ( 1 + interest_rate ), new_loan_term_mnt ) ) ) ) );
+        this.monthly_savings = this.current_monthly_payment - this.monthly_payment;
+        let balancePoints = parseFloat(( this.balance ) / 100);
+        this.pointsResult = (balancePoints * this.points);
+        this.total_cost = this.pointsResult;
+    },
+
     watch: {
 
         current_monthly_payment() {
@@ -335,11 +351,20 @@ export default {
                         parseFloat( this.document_preparation ) +
                         parseFloat( this.other );
 
-                } else {
+                } 
+                
+                if( isNaN(this.total_cost) ) {
+                    console.log("Is NaN activated");
+                    return this.pointsResult;
+
+                }
+
+                else {
 
                     return 0;
                 
                 }
+
 
         },
 

@@ -4,7 +4,7 @@
         <div class="loan-info">
             <p><strong>Loan Information:</strong></p>
             <el-row>
-                <el-col :span="12">
+                <el-col :span="24">
                     <label>Mortgage Amount</label>
                     <el-input type="number" placeholder="Mortgage Amount" v-model="mortgage_amount" 
                                     min=0
@@ -19,7 +19,7 @@
 
             
             <el-row>
-                <el-col :span="12">
+                <el-col :span="24">
                     <label>Term in years</label>
                     <el-input type="number" placeholder="Term in years" v-model="term_in_years" 
                                     min=0
@@ -32,7 +32,7 @@
                 </el-col>
             </el-row>
             <el-row>
-                <el-col :span="12">
+                <el-col :span="24">
                     <label>Interest Rate</label>
                     <el-input type="number" placeholder="Interest Rate" v-model="interest_rate" 
                                     min=0
@@ -45,7 +45,7 @@
                 </el-col>
             </el-row>
             <el-row>
-                <el-col :span="12">
+                <el-col :span="24">
                     <label>Annual property taxes</label>
                     <el-input type="number" placeholder="Annual property taxes" v-model="annual_property_taxes" 
                                     min=0
@@ -58,7 +58,7 @@
                 </el-col>
             </el-row>
              <el-row>
-                <el-col :span="12">
+                <el-col :span="24">
                     <label>Annual Home Insurance</label>
                     <el-input type="number" placeholder="Annual Home Insurance" v-model="annual_property_insurance"
                                     min=0
@@ -70,18 +70,20 @@
                     </span>
                 </el-col>
             </el-row>
-            <el-row>
-                <el-col :span="12">
-                    <label><strong>Monthly Payment(PI):</strong></label>
-                    <p>${{ pi.toFixed(2) }}</p>
-                </el-col>
-            </el-row>
-             <el-row>
-                <el-col :span="12">
-                    <label><strong>Monthly Payment(PITI):</strong></label>
-                    <p>${{ piti.toFixed(2) }}</p>
-                </el-col>
-            </el-row>
+            <div class="payment">
+                <el-row>
+                    <el-col :span="12">
+                        <label><strong>Monthly Payment(PI):</strong></label>
+                        <p>${{ pi.toFixed(2) }}</p>
+                    </el-col>
+                </el-row>
+                <el-row>
+                    <el-col :span="12">
+                        <label><strong>Monthly Payment(PITI):</strong></label>
+                        <p>${{ piti.toFixed(2) }}</p>
+                    </el-col>
+                </el-row>
+            </div>
         </div>
     </div>
 </template>
@@ -91,11 +93,11 @@
 export default {
     data() {
         return {
-            mortgage_amount: 0,
-            term_in_years: 0,
-            interest_rate: 0,
-            annual_property_taxes: 0,
-            annual_property_insurance: 0
+            mortgage_amount: 120000,
+            term_in_years: 30,
+            interest_rate: 12,
+            annual_property_taxes: 15,
+            annual_property_insurance: 15
         }
     },
 
