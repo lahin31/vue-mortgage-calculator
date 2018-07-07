@@ -420,19 +420,21 @@ export default {
 
                     element.principal = ( this.monthlyPayment - element.interest ).toFixed(2);
                     var principal_upd = ( this.monthlyPayment - element.interest );
-                    element.balance = ( p - principal_upd ).toFixed(2); 
+
+                    if(  p - principal_upd <= 0 ) {
+                        var balance_final = 0;
+                        element.balance = balance_final.toFixed(2);
+                    } 
+                    else {
+                        element.balance = ( p - principal_upd ).toFixed(2); 
+                    }
+                    
                     var balance_upd = ( p - principal_upd );
                     p = balance_upd;
 
                     monthIndex+=1;
                     if(monthIndex == 12) {
                         monthIndex = 0;
-                    }
-
-                    if( Math.sign(p) == -1 ) {
-
-                        p = 0;
-
                     }
 
                 });
