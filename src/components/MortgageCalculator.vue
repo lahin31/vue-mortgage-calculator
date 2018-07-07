@@ -175,6 +175,7 @@ export default {
                 'Jan', 'Feb', 'Mar', 'Apr', 'May', 'June', 'July', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'
             ],
             month: 0,
+            year_selected: 0
         }
     },
 
@@ -184,7 +185,11 @@ export default {
         var dd = today.getDate();
         var mm = today.getMonth();
         var year = today.getFullYear();
+
         this.month = mm;
+        this.year_selected = year;
+        console.log(this.year_selected);
+
         if( dd < 10 ) {
 
             dd = '0' + dd;
@@ -392,7 +397,7 @@ export default {
             var p;
             var i = 0;
             while( i <= this.monthlyPayment ) {
-
+                var root_year = this.year_selected;
                 this.gridData.push({
                     PaymentDate: '',
                     payment: 0,
@@ -406,9 +411,20 @@ export default {
                 var total_interest = 0;
                 var monthIndex = this.month + 1;
                 this.gridData.forEach(element => {
+                    
 
-        
-                    element.PaymentDate = this.months[monthIndex];
+                    if( this.months[monthIndex] == 'Jan' ) {
+
+                        element.PaymentDate = this.months[monthIndex] + ' ' + ((root_year + 1).toString());
+                        root_year = root_year + 1;
+
+                    } else {
+                        
+                        element.PaymentDate = this.months[monthIndex]+ ' ' + ((root_year).toString());
+
+                    }
+                    
+
 
                     element.payment = (this.monthlyPayment).toFixed(3);
 
