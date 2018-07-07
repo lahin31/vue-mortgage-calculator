@@ -460,8 +460,7 @@ export default {
             var str = this.date;
             var ch = str.substring(3, 5);
             this.month = parseInt(ch) - 1;
-            console.log(this.month);
-
+            this.gridData = [];
             this.paymentSchedule();
 
         }
