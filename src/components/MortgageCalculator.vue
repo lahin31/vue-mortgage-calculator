@@ -498,6 +498,7 @@ table {
   border: 2px solid #42b983;
   border-radius: 3px;
   background-color: #fff;
+  width: 100%;
 }
 
 th {
@@ -524,5 +525,9 @@ th.active {
 
 th.active .arrow {
   opacity: 1;
+}
+
+tr {
+    text-align: center;
 }
 </style>
