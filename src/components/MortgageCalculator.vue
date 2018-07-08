@@ -7,7 +7,8 @@
         <el-row :gutter="15">
             <el-col :span="24">
                 <label>Home Price</label>
-                <el-input type="text" placeholder="Home Price" 
+                <el-input type="number" placeholder="Home Price" 
+                                min=0
                                 v-model="homePrice" 
                                 name="homePrice" 
                                 id="homePrice" 
@@ -165,7 +166,7 @@ export default {
             annualInterestRate: 12,
             monthlyPayment: 0,
             principalPaid: 0,
-            myValue: 0,
+            annualInterestRateUpd: 0,
             newValue: 0,
             date: "",
             showTable: false,
@@ -254,22 +255,18 @@ export default {
                 this.principalPaid = this.homePrice;
             
             }
-            if( this.downPament == 0 && this.mortgageTerm == 0 && this.annualInterestRate == 0 ) {
-                
-                this.monthlyPayment = 0;
-            }
+            
             if( this.principalPaid != 0 ) {
                 
                 this.principalPaid = parseFloat( this.homePrice - this.downPament );
             
             }
-            if( this.myValue != 0 && this.mortgageTermMonth != 0 && this.principalPaid ) {
+            if( this.annualInterestRateUpd != 0 && this.mortgageTermMonth != 0 && this.principalPaid ) {
                 
-                this.monthlyPayment = parseFloat( ( ( this.principalPaid * this.myValue ) / ( 1 - ( 1 / Math.pow( ( 1 + this.myValue ), this.mortgageTermMonth ) ) ) ) );
+                this.monthlyPayment = parseFloat( ( ( this.principalPaid * this.annualInterestRateUpd ) / ( 1 - ( 1 / Math.pow( ( 1 + this.annualInterestRateUpd ), this.mortgageTermMonth ) ) ) ) );
             
             }
-
-            else {
+            if( this.homePrice == 0 || this.homePrice == '') {
 
                 this.monthlyPayment = 0;
                 this.principalPaid = 0;
@@ -281,18 +278,21 @@ export default {
         downPament() {
 
             this.showTable = false;
+
             if( this.principalPaid == 0 ) {
+                
                 this.principalPaid = this.homePrice;
             
             }
+
             if( this.homePrice != 0 ) {
 
                 this.principalPaid = parseFloat( this.homePrice - this.downPament );
             
             }
-            if( this.myValue != 0 && this.mortgageTermMonth != 0 && this.homePrice != 0 && this.principalPaid != 0 ) {
+            if( this.annualInterestRateUpd != 0 && this.mortgageTermMonth != 0 && this.homePrice != 0 && this.principalPaid != 0 ) {
 
-                this.monthlyPayment =  parseFloat( ( ( this.principalPaid * this.myValue ) / ( 1 - ( 1 / Math.pow( ( 1 + this.myValue ), this.mortgageTermMonth ) ) ) ) );
+                this.monthlyPayment =  parseFloat( ( ( this.principalPaid * this.annualInterestRateUpd ) / ( 1 - ( 1 / Math.pow( ( 1 + this.annualInterestRateUpd ), this.mortgageTermMonth ) ) ) ) );
             
             }
 
@@ -301,34 +301,48 @@ export default {
         mortgageTerm() {
 
             this.showTable = false;
+
             if( this.mortgageTerm != 0 ) {
 
                 this.mortgageTermMonth = parseFloat( this.mortgageTerm ) * 12;
-
-            }
-
-            if( this.principalPaid == 0 ) {
-
-                this.principalPaid = this.homePrice;
-
-            }
-
-            if( this.homePrice == 0 && this.myValue == 0 ) {
-
-                this.monthlyPayment = 0;
-
-            }
-
-            if( this.homePrice != 0 && this.myValue != 0 && this.principalPaid > 0 ) {
-
-                this.monthlyPayment = parseFloat( ( this.principalPaid * this.myValue ) / ( 1 - ( 1 / Math.pow( ( 1 + this.myValue ), this.mortgageTermMonth ) ) ) );
             
             }
 
+            if( this.homePrice != 0 ) {
+
+                this.principalPaid = parseFloat( this.homePrice - this.downPament );
+
+            }
+            
+            if( this.annualInterestRate != 0 ) {
+
+                this.annualInterestRateUpd = parseFloat(( this.annualInterestRate / 12 ) / 100);
+            
+            }
+
+            if( this.homePrice == 0 && this.annualInterestRateUpd == 0 ) {
+
+                this.monthlyPayment = 0;
+            
+            }
+
+            if( this.homePrice != 0 && this.annualInterestRateUpd != 0 && this.principalPaid > 0 ) {
+
+                this.monthlyPayment = parseFloat( ( this.principalPaid * this.annualInterestRateUpd ) / ( 1 - ( 1 / Math.pow( ( 1 + this.annualInterestRateUpd ), this.mortgageTermMonth ) ) ) );
+            
+            }
+
+            if( this.mortgageTerm == 0 || this.mortgageTerm == '' ) {
+
+                this.monthlyPayment = 0;
+                this.principalPaid = 0;
+
+            }
+            
             else {
 
-                 this.monthlyPayment =  parseFloat( ( ( this.homePrice * this.myValue ) / ( 1 - ( 1 / Math.pow( ( 1 + this.myValue ), this.mortgageTermMonth ) ) ) ) );
-
+                this.monthlyPayment =  parseFloat( ( ( this.principalPaid * this.annualInterestRateUpd ) / ( 1 - ( 1 / Math.pow( ( 1 + this.annualInterestRateUpd ), this.mortgageTermMonth ) ) ) ) );
+            
             }
 
         },
@@ -336,6 +350,7 @@ export default {
         mortgageTermMonth() {
 
             this.showTable = false;
+
             if( this.mortgageTermMonth != 0 ) {
 
                 this.mortgageTerm = this.mortgageTermMonth / 12;
@@ -353,7 +368,8 @@ export default {
         annualInterestRate() {
 
             this.showTable = false;
-            this.myValue = parseFloat(( this.annualInterestRate / 12 ) / 100); 
+            
+            this.annualInterestRateUpd = parseFloat(( this.annualInterestRate / 12 ) / 100); 
 
             if( this.principalPaid == 0 ) {
 
@@ -361,15 +377,18 @@ export default {
 
             }
 
-            if( this.homePrice == 0 && this.myValue == 0 && this.mortgageTerm == 0 ) {
+            
+
+            if( this.annualInterestRate == 0 || this.annualInterestRate == '' ) {
 
                 this.monthlyPayment = 0;
+                this.principalPaid = 0;
 
-            }         
+            }       
 
-            if( this.homePrice != 0 && this.myValue != 0 && this.mortgageTerm != 0 && this.principalPaid ) {
+            if( this.homePrice != 0 && this.annualInterestRateUpd != 0 && this.mortgageTerm != 0 && this.principalPaid != 0) {
 
-                this.monthlyPayment = parseFloat( ( this.principalPaid * this.myValue ) / ( 1 - ( 1 / Math.pow( ( 1 + this.myValue ), this.mortgageTermMonth ) ) ) ); 
+                this.monthlyPayment = parseFloat( ( this.principalPaid * this.annualInterestRateUpd ) / ( 1 - ( 1 / Math.pow( ( 1 + this.annualInterestRateUpd ), this.mortgageTermMonth ) ) ) ); 
             
             }
 
