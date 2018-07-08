@@ -94,14 +94,19 @@
         </el-row>
 
         <div v-if="showTable">
-            <p>Estimated Payoff Date</p>
-            <h4>{{ date_selected }} {{ estPayOffDate }}</h4>
             <el-row>
 
                 <el-col :span="12">
 
                     <label>Start Date</label>
                     <el-input v-model="date" v-on:blur="myBlurFun()"></el-input>
+
+                </el-col>
+                
+                <el-col>
+
+                    <p>Estimated Payoff Date</p>
+                    <h4>{{ date_selected }} {{ estPayOffDate }}</h4>
 
                 </el-col>
 
@@ -182,19 +187,19 @@ export default {
 
         var today = new Date();
         var dd = today.getDate();
-        var mm = today.getMonth();
+        var mm = today.getMonth() +  1;
         var year = today.getFullYear();
 
-        this.date_selected= dd;
         this.month = mm;
         this.year_selected = year;
-        console.log(this.month);
 
         if( dd < 10 ) {
 
             dd = '0' + dd;
 
         }
+
+        this.date_selected= dd;
 
         if( mm < 10 ) {
 
@@ -203,7 +208,10 @@ export default {
         }
 
         today = dd + '/' + mm + "/" + year;
+        console.log(today)
         this.date = today;
+
+        // Generating Amortization Schedule
 
         var ann_int_rate = ( this.annualInterestRate / 12);
         ann_int_rate /= 100;
@@ -420,14 +428,23 @@ export default {
 
                 var ann_int = this.annualInterestRate;
                 var total_interest = 0;
-                var monthIndex = this.month + 1;
+                var monthIndex = this.month;
 
                 this.gridData.forEach(element => {
                     
 
-                    if( this.months[monthIndex] == 'Jan' ) {
+                    if( this.months[monthIndex] == 'Jan' || monthIndex == 12) {
+                        
+                        if( monthIndex == 12 ){
+
+                            monthIndex = 0
+
+                        }
+                        
 
                         element.PaymentDate = this.months[monthIndex] + ' ' + ((root_year + 1).toString());
+
+                        
                         root_year = root_year + 1;
 
                     } else {
@@ -496,7 +513,7 @@ export default {
 
             var str = this.date;
             var month = str.substring(3, 5);
-            var date = str.substring(1, 3);
+            var date = str.substring(0, 2);
             this.date_selected = date;
             this.month = parseInt(month);
             this.gridData = [];
