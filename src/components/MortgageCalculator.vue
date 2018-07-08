@@ -25,12 +25,7 @@
                                 v-model="downPament" 
                                 min=0
                                 name="downPayment"
-                                id="downPayment"
-                                v-validate="'required'"
-                                :class="{'error': errors.has('downPayment') }"></el-input>
-                <span v-if="errors.has('downPayment')" style="color: red;">
-                    Down Payment field is required
-                </span>
+                                id="downPayment"></el-input>
             </el-col>
             <el-col :span="12">
                 <label>Down Pament Percentage</label>
@@ -81,8 +76,8 @@
         <div style="margin-top: 10px; margin-left: 0;">
 
             <p>Your estimated monthly payment:</p>
-            <h1><span>$</span> {{ (monthlyPayment).toFixed(3) }}</h1>
-            <p>Total principal paid: ${{ principalPaid }}</p>
+            <h1><span>$</span> {{ (monthlyPayment).toFixed(2) }}</h1>
+            <p>Total principal paid: ${{ principalPaid.toFixed(2) }}</p>
             <p>Total interest paid: ${{ (total_interest).toFixed(2) }}</p>
         
         </div>
@@ -91,7 +86,7 @@
 
             <el-col>
 
-                <el-button @click="paymentSchedule()" type="success" v-if="showTable==false">Payment Schedule</el-button>
+                <el-button @click="paymentSchedule()" type="success" :disabled="errors.any()" v-if="showTable==false">Payment Schedule</el-button>
                 <el-button @click="hidePaymentSchedule()" type="danger" v-if="showTable==true">Hide Payment Schedule</el-button>
 
             </el-col>
@@ -99,6 +94,8 @@
         </el-row>
 
         <div v-if="showTable">
+            <p>Estimated Payoff Date</p>
+            <h4>{{ date_selected }} {{ estPayOffDate }}</h4>
             <el-row>
 
                 <el-col :span="12">
@@ -175,7 +172,9 @@ export default {
                 'Jan', 'Feb', 'Mar', 'Apr', 'May', 'June', 'July', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'
             ],
             month: 0,
-            year_selected: 0
+            date_selected: 0,
+            year_selected: 0,
+            estPayOffDate: ''
         }
     },
 
@@ -186,9 +185,10 @@ export default {
         var mm = today.getMonth();
         var year = today.getFullYear();
 
+        this.date_selected= dd;
         this.month = mm;
         this.year_selected = year;
-        console.log(this.year_selected);
+        console.log(this.month);
 
         if( dd < 10 ) {
 
@@ -202,7 +202,7 @@ export default {
 
         }
 
-        today = mm + '/' + dd + "/" + year;
+        today = dd + '/' + mm + "/" + year;
         this.date = today;
 
         var ann_int_rate = ( this.annualInterestRate / 12);
@@ -238,54 +238,50 @@ export default {
     
     watch: {
 
-        'homePrice': function(val, oldVal) {
+        homePrice: function() {
 
-            if( val == null) {
-
-                console.log("Please don't blank the input field");
-
-            }
-
+            this.showTable = false;
             if( this.principalPaid == 0 ) {
 
                 this.principalPaid = this.homePrice;
             
             }
-
             if( this.downPament == 0 && this.mortgageTerm == 0 && this.annualInterestRate == 0 ) {
                 
                 this.monthlyPayment = 0;
-
             }
-
             if( this.principalPaid != 0 ) {
                 
                 this.principalPaid = parseFloat( this.homePrice - this.downPament );
             
             }
-
             if( this.myValue != 0 && this.mortgageTermMonth != 0 && this.principalPaid ) {
                 
                 this.monthlyPayment = parseFloat( ( ( this.principalPaid * this.myValue ) / ( 1 - ( 1 / Math.pow( ( 1 + this.myValue ), this.mortgageTermMonth ) ) ) ) );
             
             }
 
+            else {
+
+                this.monthlyPayment = 0;
+                this.principalPaid = 0;
+
+            }
+
         },
 
         downPament() {
 
+            this.showTable = false;
             if( this.principalPaid == 0 ) {
-
                 this.principalPaid = this.homePrice;
             
             }
-
             if( this.homePrice != 0 ) {
 
                 this.principalPaid = parseFloat( this.homePrice - this.downPament );
             
             }
-
             if( this.myValue != 0 && this.mortgageTermMonth != 0 && this.homePrice != 0 && this.principalPaid != 0 ) {
 
                 this.monthlyPayment =  parseFloat( ( ( this.principalPaid * this.myValue ) / ( 1 - ( 1 / Math.pow( ( 1 + this.myValue ), this.mortgageTermMonth ) ) ) ) );
@@ -296,6 +292,7 @@ export default {
 
         mortgageTerm() {
 
+            this.showTable = false;
             if( this.mortgageTerm != 0 ) {
 
                 this.mortgageTermMonth = parseFloat( this.mortgageTerm ) * 12;
@@ -314,16 +311,23 @@ export default {
 
             }
 
-            if( this.homePrice != 0 && this.myValue != 0 && this.principalPaid != 0 ) {
+            if( this.homePrice != 0 && this.myValue != 0 && this.principalPaid > 0 ) {
 
                 this.monthlyPayment = parseFloat( ( this.principalPaid * this.myValue ) / ( 1 - ( 1 / Math.pow( ( 1 + this.myValue ), this.mortgageTermMonth ) ) ) );
             
+            }
+
+            else {
+
+                 this.monthlyPayment =  parseFloat( ( ( this.homePrice * this.myValue ) / ( 1 - ( 1 / Math.pow( ( 1 + this.myValue ), this.mortgageTermMonth ) ) ) ) );
+
             }
 
         },
 
         mortgageTermMonth() {
 
+            this.showTable = false;
             if( this.mortgageTermMonth != 0 ) {
 
                 this.mortgageTerm = this.mortgageTermMonth / 12;
@@ -340,6 +344,7 @@ export default {
 
         annualInterestRate() {
 
+            this.showTable = false;
             this.myValue = parseFloat(( this.annualInterestRate / 12 ) / 100); 
 
             if( this.principalPaid == 0 ) {
@@ -394,10 +399,14 @@ export default {
         paymentSchedule() {
 
             this.showTable= true;
+
             var p;
             var i = 0;
+
             while( i <= this.monthlyPayment ) {
+
                 var root_year = this.year_selected;
+
                 this.gridData.push({
                     PaymentDate: '',
                     payment: 0,
@@ -405,11 +414,14 @@ export default {
                     interest: 0,
                     totalInterest: 0,
                     balance: 0
-                })
+                });
+
                 p = this.principalPaid;
+
                 var ann_int = this.annualInterestRate;
                 var total_interest = 0;
                 var monthIndex = this.month + 1;
+
                 this.gridData.forEach(element => {
                     
 
@@ -419,7 +431,7 @@ export default {
                         root_year = root_year + 1;
 
                     } else {
-                        
+
                         element.PaymentDate = this.months[monthIndex]+ ' ' + ((root_year).toString());
 
                     }
@@ -437,12 +449,18 @@ export default {
                     element.principal = ( this.monthlyPayment - element.interest ).toFixed(2);
                     var principal_upd = ( this.monthlyPayment - element.interest );
 
-                    if(  p - principal_upd <= 0 ) {
+                    if(  p - principal_upd < 1  ) {
+
                         var balance_final = 0;
                         element.balance = balance_final.toFixed(2);
+                        this.estPayOffDate = element.PaymentDate;
+                    
                     } 
+
                     else {
+
                         element.balance = ( p - principal_upd ).toFixed(2); 
+                    
                     }
                     
                     var balance_upd = ( p - principal_upd );
@@ -455,9 +473,12 @@ export default {
 
                 });
 
-                if( p == 0 ) {
+                if( p < 1 ) {
+
                     break;
+
                 }
+
                 i = this.monthlyPayment - p;
             
             }
@@ -474,8 +495,10 @@ export default {
         myBlurFun() {
 
             var str = this.date;
-            var ch = str.substring(3, 5);
-            this.month = parseInt(ch) - 1;
+            var month = str.substring(3, 5);
+            var date = str.substring(1, 3);
+            this.date_selected = date;
+            this.month = parseInt(month);
             this.gridData = [];
             this.paymentSchedule();
 
