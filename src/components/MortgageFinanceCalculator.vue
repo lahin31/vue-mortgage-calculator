@@ -352,12 +352,6 @@ export default {
                         parseFloat( this.other );
 
                 } 
-                
-                if( isNaN(this.total_cost) ) {
-                    console.log("Is NaN activated");
-                    return this.pointsResult;
-
-                }
 
                 else {
 

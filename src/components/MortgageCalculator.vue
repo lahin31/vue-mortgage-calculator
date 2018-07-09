@@ -250,7 +250,8 @@ export default {
         homePrice: function() {
 
             this.showTable = false;
-            if( this.principalPaid == 0 ) {
+            
+            if( this.principalPaid <= 0 ) {
 
                 this.principalPaid = this.homePrice;
             
@@ -261,11 +262,25 @@ export default {
                 this.principalPaid = parseFloat( this.homePrice - this.downPament );
             
             }
-            if( this.annualInterestRateUpd != 0 && this.mortgageTermMonth != 0 && this.principalPaid ) {
+
+            if( this.annualInterestRate != 0 ) {
+
+                this.annualInterestRateUpd = parseFloat(( this.annualInterestRate / 12 ) / 100);
+            
+            }
+
+            if( this.mortgageTerm != 0 ) {
+
+                this.mortgageTermMonth = parseFloat( this.mortgageTerm ) * 12;
+            
+            }
+
+            if( this.annualInterestRateUpd != 0 && this.mortgageTermMonth != 0 && this.principalPaid != 0 ) {
                 
                 this.monthlyPayment = parseFloat( ( ( this.principalPaid * this.annualInterestRateUpd ) / ( 1 - ( 1 / Math.pow( ( 1 + this.annualInterestRateUpd ), this.mortgageTermMonth ) ) ) ) );
             
             }
+
             if( this.homePrice == 0 || this.homePrice == '') {
 
                 this.monthlyPayment = 0;
