@@ -9,13 +9,14 @@
                 <label>Home Price</label>
                 <el-input type="number" placeholder="Home Price" 
                                 min=0
+                                pattern="/^-?\d+\.?\d*$/" onKeyPress="if(this.value.length==8) return false;"
                                 v-model="homePrice" 
                                 name="homePrice" 
                                 id="homePrice" 
-                                v-validate="'required'"
+                                v-validate="rules"
                                 :class="{'error': errors.has('homePrice') }"></el-input>
                 <span v-if="errors.has('homePrice')" style="color: red;">
-                    Home Price field is required
+                    {{ errors.first('homePrice') }}
                 </span>
             </el-col>
         </el-row>
@@ -38,21 +39,28 @@
             <el-col :span="12">
                 <label>Mortgage term</label>
                 <el-input type="number" placeholder="Mortgage Term" min=0
+                                pattern="/^-?\d+\.?\d*$/" onKeyPress="if(this.value.length==2) return false;"
                                 v-model="mortgageTerm"
                                 name="mortgageTerm"
                                 id="mortgageTerm"
-                                v-validate="'required'"
+                                v-validate="term_rule"
                                 :class="{'error': errors.has('mortgageTerm') }"></el-input>
                 <span v-if="errors.has('mortgageTerm')" style="color: red;">
-                    Mortgage Term field is required
+                    {{ errors.first('mortgageTerm') }}
                 </span>
             </el-col>
             <el-col :span="12">
                 <label>Mortgage term month</label>
                 <el-input type="number" 
                                 placeholder="Mortgage Term Month" 
+                                pattern="/^-?\d+\.?\d*$/" onKeyPress="if(this.value.length==3) return false;"
                                 v-model="mortgageTermMonth"
-                                min=0></el-input>
+                                v-validate="term_rule_month"
+                                min=0
+                                :class="{'error': errors.has('mortgageTermMonth') }"></el-input>
+                <span v-if="errors.has('mortgageTermMonth')" style="color: red;">
+                    {{ errors.first('mortgageTermMonth') }}
+                </span>
             </el-col>
         </el-row>
         <el-row :gutter="15">
@@ -60,12 +68,13 @@
                 <label>Annual interest rate</label>
                 <el-input type="number" placeholder="Annual interest rate" min=0
                                 v-model="annualInterestRate" 
+                                pattern="/^-?\d+\.?\d*$/" onKeyPress="if(this.value.length==2) return false;"
                                 name="annualInterestRate"
                                 id="annualInterestRate"
-                                v-validate="'required'"
+                                v-validate="interest_rate_rule"
                                 :class="{'error': errors.has('annualInterestRate') }"></el-input>
                 <span v-if="errors.has('annualInterestRate')" style="color: red;">
-                    Annual Interest Rate field is required
+                    {{ errors.first('annualInterestRate') }}
                 </span>
             </el-col>
         </el-row>
@@ -74,7 +83,8 @@
 
         <!-- All Cost Section -->
 
-        <div style="margin-top: 10px; margin-left: 0;">
+
+        <div style="margin-top: 10px; margin-left: 0;" v-if="!errors.any()">
 
             <p>Your estimated monthly payment:</p>
             <h1><span>$</span> {{ (monthlyPayment).toFixed(2) }}</h1>
@@ -180,7 +190,11 @@ export default {
             month: 0,
             date_selected: 0,
             year_selected: 0,
-            estPayOffDate: ''
+            estPayOffDate: '',
+            acceptedValue: '',
+            acceptedTerm: '',
+            acceptedTermMonth: '',
+            acceptInterestRate: ''
         }
     },
 
@@ -220,7 +234,10 @@ export default {
         var homePrice = this.homePrice - this.downPament;
         this.principalPaid = homePrice;
         this.monthlyPayment = parseFloat( ( ( homePrice * ann_int_rate ) / ( 1 - ( 1 / Math.pow( ( 1 + ann_int_rate ), this.mortgageTermMonth ) ) ) ) );
-
+        this.acceptedValue = 10000000;
+        this.acceptedTerm = 40;
+        this.acceptedTermMonth = 480;
+        this.acceptInterestRate = 99;
     },
 
     computed: {
@@ -240,6 +257,54 @@ export default {
                 return 0;
 
             }
+
+        },
+
+        rules() {
+
+            if( !this.acceptedValue ) {
+
+                return 'required';
+
+            }
+
+            return `required|max_value:${this.acceptedValue}`;
+
+        },
+
+        term_rule() {
+
+            if( !this.acceptedTerm ) {
+
+                return 'required';
+
+            }
+
+            return `required|max_value:${this.acceptedTerm}`;
+
+        },
+
+        term_rule_month() {
+
+            if( !this.acceptedTermMonth ) {
+
+                return 'required';
+
+            }
+
+            return `required|max_value:${this.acceptedTermMonth}`;
+
+        },
+
+        interest_rate_rule() {
+
+            if( !this.acceptInterestRate ) {
+
+                return 'required';
+
+            }
+
+            return `required|max_value:${this.acceptInterestRate}`;
 
         }
 

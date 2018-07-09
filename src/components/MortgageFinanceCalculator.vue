@@ -4,7 +4,7 @@
         <el-row :gutter="12">
             <el-col :span="12">
                 <label>Current monthly payment</label>
-                <el-input type="number" min=0 
+                <el-input type="number" min=0
                                 placeholder="Current monthly payment" 
                                 v-model="current_monthly_payment"
                                 name="current_monthly_payment"
@@ -12,7 +12,7 @@
                                 v-validate="'required'"
                                 :class="{'error': errors.has('current_monthly_payment') }"></el-input>
                 <span v-if="errors.has('current_monthly_payment')" style="color: red;">
-                    Current monthly payment field is required
+                    Current loan interest rate field is required
                 </span>
             </el-col>
             <el-col :span="12">
@@ -221,7 +221,8 @@ export default {
             local_fees: 0,
             inspections: 0,
             document_preparation: 0,
-            other: 0
+            other: 0,
+            acceptedValue: ''
         }
     },
 
@@ -238,6 +239,7 @@ export default {
         let balancePoints = parseFloat(( this.balance ) / 100);
         this.pointsResult = (balancePoints * this.points);
         this.total_cost = this.pointsResult;
+        this.acceptedValue = 10000000;
     },
 
     watch: {
@@ -259,6 +261,14 @@ export default {
             if( this.monthly_payment != 0 && this.current_monthly_payment != 0 ) {
 
                 this.monthly_savings = parseFloat( this.current_monthly_payment - this.monthly_payment );
+
+                // var monthly_savings = parseFloat( this.current_monthly_payment - this.monthly_payment );
+                console.log(this.monthly_savings);
+                // var result = monthly_savings.replace(/\D/g, "").replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+
+                // console.log(result);
+
+                // Vue.nextTick( () => this.monthly_savings = result );
             
             }
 
@@ -418,7 +428,7 @@ export default {
                 } 
 
                 else {
-                    
+
                     return 0;
                 
                 }
