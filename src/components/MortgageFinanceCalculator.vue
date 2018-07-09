@@ -199,12 +199,12 @@
 export default {
     data() {
         return {
-            current_monthly_payment: 12500,
-            current_loan_interest_rate: 12,
-            balance: 263589,
-            new_interest_rate: 2.5,
-            remaining_loan_term: 3.5,
-            new_loan_term:5,
+            current_monthly_payment: 765,
+            current_loan_interest_rate: 4.5,
+            balance: 100000,
+            new_interest_rate: 3.5,
+            remaining_loan_term: 15,
+            new_loan_term: 15,
             monthly_payment: 0,
             new_interest_rate_upd: 0,
             new_loan_term_upd: 0,
@@ -244,18 +244,35 @@ export default {
 
         current_monthly_payment() {
 
-            if( this.balance != 0 && this.new_interest_rate_upd != 0 && this.new_loan_term != 0 && this.current_monthly_payment != 0 ) {
+            if( this.new_interest_rate != 0 ) {
 
-                this.monthly_payment = parseFloat( ( ( this.balance * this.new_interest_rate_upd ) / ( 1 - ( 1 / Math.pow( ( 1 + this.new_interest_rate_upd ), this.new_loan_term_upd ) ) ) ) );
+                this.new_interest_rate_upd = parseFloat(( this.new_interest_rate / 12 )/100);
+
+            }
+
+            if( this.new_loan_term != 0 ) {
+
+                this.new_loan_term_upd = parseFloat( this.new_loan_term ) * 12;
+
+            }
+
+            if( this.monthly_payment != 0 && this.current_monthly_payment != 0 ) {
+
                 this.monthly_savings = parseFloat( this.current_monthly_payment - this.monthly_payment );
             
+            }
+
+            if( this.current_monthly_payment == 0 || this.current_monthly_payment == '' ) {
+
+                this.monthly_savings = 0;
+
             }
 
         },
 
         balance() {
 
-            if( this.balance == 0 ) {
+            if( this.balance == 0 || this.balance == '' ) {
 
                 this.monthly_payment = 0;
                 this.pointsResult = 0;
@@ -263,16 +280,27 @@ export default {
 
             }
 
-            if( this.new_loan_term == 0 && this.new_interest_rate_upd == 0 ) {
-                
-                this.monthly_payment = 0;
+            if( this.new_interest_rate != 0 ) {
+
+                this.new_interest_rate_upd = parseFloat(( this.new_interest_rate / 12 )/100);
 
             }
 
-            if( this.balance != 0 && this.new_interest_rate_upd != 0 && this.new_loan_term != 0 && this.current_monthly_payment != 0 ) {
+            if( this.new_loan_term != 0 ) {
+
+                this.new_loan_term_upd = parseFloat( this.new_loan_term ) * 12;
+
+            }
+
+            if( this.balance != 0 && this.new_interest_rate_upd != 0 ) {
 
                 this.monthly_payment = parseFloat( ( ( this.balance * this.new_interest_rate_upd ) / ( 1 - ( 1 / Math.pow( ( 1 + this.new_interest_rate_upd ), this.new_loan_term_upd ) ) ) ) );
-                this.monthly_savings = parseFloat( this.current_monthly_payment - this.monthly_payment );
+                
+                if( this.current_monthly_payment != 0 ) {
+
+                    this.monthly_savings = parseFloat( this.current_monthly_payment - this.monthly_payment );
+
+                }
             
             }
 
@@ -289,11 +317,29 @@ export default {
         new_interest_rate() {
                 
             this.new_interest_rate_upd = parseFloat(( this.new_interest_rate / 12 )/100);
+
+            if( this.new_loan_term != 0 ) {
+
+                this.new_loan_term_upd = parseFloat( this.new_loan_term ) * 12;
+
+            }
             
-            if( this.balance != 0 && this.new_interest_rate_upd != 0 && this.new_loan_term != 0 && this.current_monthly_payment != 0 ) {
+            if( this.balance != 0 && this.new_interest_rate_upd != 0 && this.new_loan_term_upd != 0 ) {
 
                 this.monthly_payment = parseFloat( ( ( this.balance * this.new_interest_rate_upd ) / ( 1 - ( 1 / Math.pow( ( 1 + this.new_interest_rate_upd ), this.new_loan_term_upd ) ) ) ) );
-                this.monthly_savings = parseFloat( this.current_monthly_payment - this.monthly_payment );
+
+                if( this.current_monthly_payment != 0 ) {
+
+                    this.monthly_savings = parseFloat( this.current_monthly_payment - this.monthly_payment );
+
+                }
+
+            }
+
+            if( this.new_interest_rate == 0 || this.new_interest_rate == '' ) {
+
+                this.monthly_savings = 0;
+                this.monthly_payment = 0;
 
             }
 
@@ -303,10 +349,28 @@ export default {
 
             this.new_loan_term_upd = parseFloat( this.new_loan_term ) * 12;
 
-            if( this.balance != 0 && this.new_interest_rate_upd != 0 && this.new_loan_term != 0 && this.current_monthly_payment != 0 ) {
+            if( this.new_interest_rate != 0 ) {
+
+                this.new_interest_rate_upd = parseFloat(( this.new_interest_rate / 12 )/100);
+
+            }
+
+            if( this.balance != 0 && this.new_interest_rate_upd != 0 && this.new_loan_term_upd != 0 ) {
 
                 this.monthly_payment = parseFloat( ( ( this.balance * this.new_interest_rate_upd ) / ( 1 - ( 1 / Math.pow( ( 1 + this.new_interest_rate_upd ), this.new_loan_term_upd ) ) ) ) );
-                this.monthly_savings = parseFloat( this.current_monthly_payment - this.monthly_payment );
+
+                if( this.current_monthly_payment != 0 ) {
+
+                    this.monthly_savings = parseFloat( this.current_monthly_payment - this.monthly_payment );
+
+                }
+
+            }
+
+            if( this.new_loan_term == 0 || this.new_loan_term == '' ) {
+
+                this.monthly_savings = 0;
+                this.monthly_payment = 0;
 
             }
 
@@ -314,7 +378,7 @@ export default {
 
         points() {
 
-            if( this.points != 0 ) {
+            if( this.balance != 0 && this.points != 0 ) {
 
                 let balancePoints = parseFloat(( this.balance ) / 100);
                 this.pointsResult = (balancePoints * this.points);
@@ -322,7 +386,7 @@ export default {
 
             }
 
-            if( this.points == 0 ) {
+            if( this.points == 0 || this.points == '' ) {
 
                 this.pointsResult = 0;
                 this.total_cost = 0;
@@ -336,25 +400,25 @@ export default {
 
         total_cost() {
 
-            if( this.pointsResult ) {
+                if( this.pointsResult ) {
 
-                return this.pointsResult + 
-                        parseFloat( this.application_fee ) + 
-                        parseFloat( this.credit_check ) +
-                        parseFloat( this.attorney_fee_yours ) +
-                        parseFloat( this.attorney_fee_lenders ) +
-                        parseFloat( this.title_search ) +
-                        parseFloat( this.title_insurance ) + 
-                        parseFloat( this.appraisal_fee ) + 
-                        parseFloat( this.inspections ) +
-                        parseFloat( this.local_fees ) +
-                        parseFloat( this.document_preparation ) +
-                        parseFloat( this.other );
+                    return this.pointsResult + 
+                            parseFloat( this.application_fee ) + 
+                            parseFloat( this.credit_check ) +
+                            parseFloat( this.attorney_fee_yours ) +
+                            parseFloat( this.attorney_fee_lenders ) +
+                            parseFloat( this.title_search ) +
+                            parseFloat( this.title_insurance ) + 
+                            parseFloat( this.appraisal_fee ) + 
+                            parseFloat( this.inspections ) +
+                            parseFloat( this.local_fees ) +
+                            parseFloat( this.document_preparation ) +
+                            parseFloat( this.other );
 
                 } 
 
                 else {
-
+                    
                     return 0;
                 
                 }
@@ -364,7 +428,7 @@ export default {
 
         months_rec_costs() {
 
-            if( this.balance != 0 && this.monthly_savings != 0 ) {
+            if( this.balance != 0 && this.monthly_savings != 0 && this.points != 0 ) {
 
                 return parseFloat(( this.balance ) / ( this.monthly_savings * 100));
 
