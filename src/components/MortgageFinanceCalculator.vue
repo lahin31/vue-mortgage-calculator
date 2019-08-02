@@ -1,5 +1,5 @@
 <template>
-    <div class="mortgage_finance_calc">
+    <div class="mortgage_finance_calc calculator">
         <h1>Mortgage Finance Calculator</h1>
         <el-row :gutter="12">
             <el-col :span="12">

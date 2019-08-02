@@ -20,6 +20,12 @@ p {
 
 .mortgage-navbar {
     display: flex;
-    padding: 0 340px;
+    justify-content: center;
+}
+
+@media (max-width: 730px) {
+    .mortgage-navbar {
+        display: inline-block;
+    }
 }
 </style>
