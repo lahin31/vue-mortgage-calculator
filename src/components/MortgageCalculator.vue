@@ -234,7 +234,6 @@ export default {
     }
 
     today = dd + "/" + mm + "/" + year;
-    console.log(today);
     this.date = today;
 
     // Generating Amortization Schedule
@@ -261,9 +260,6 @@ export default {
         this.mortgageTermMonth != 0 &&
         this.principalPaid != 0
       ) {
-        console.log("Monthly Payment " + this.monthlyPayment);
-        console.log(" Mortgage Term Month " + this.mortgageTermMonth);
-        console.log(" Principal Paid " + this.principalPaid);
         var total_interest = parseFloat(
           this.monthlyPayment * this.mortgageTermMonth - this.principalPaid
         );
@@ -500,7 +496,6 @@ export default {
 
     //         let res = ( this.homePrice / 100 );
     //         this.newValue = res * this.downPamentPerc;
-    //         console.log(this.newValue);
     //         this.downPament = this.newValue;
 
     //     }
